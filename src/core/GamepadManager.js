@@ -1,0 +1,7 @@
+// @ts-check
+export class GamepadManager {
+  constructor(settings,events){this.settings=settings;this.events=events;this.axes=[0,0,0,0];this.buttons=[];this.previous=[];this.pressed=new Set();this.released=new Set();this.connected=false;window.addEventListener('gamepadconnected',()=>this.setConnected(true));window.addEventListener('gamepaddisconnected',()=>this.setConnected(false));}
+  setConnected(value){if(this.connected===value)return;this.connected=value;this.events.emit('gamepad-changed',{connected:value});}
+  update(){this.pressed.clear();this.released.clear();if(!this.settings.get('gamepadEnabled')){this.setConnected(false);this.axes.fill(0);this.buttons.fill(false);this.previous.fill(false);return;}const pad=[...navigator.getGamepads()].find(Boolean);if(!pad){this.setConnected(false);this.axes.fill(0);this.buttons.fill(false);this.previous.fill(false);return;}this.setConnected(true);const dead=this.settings.get('gamepadDeadzone');for(let i=0;i<4;i++){const value=pad.axes[i]||0;this.axes[i]=Math.abs(value)<dead?0:(value-Math.sign(value)*dead)/(1-dead);}for(let i=0;i<pad.buttons.length;i++){const down=pad.buttons[i].pressed||pad.buttons[i].value>.55;if(down&&!this.previous[i])this.pressed.add(i);if(!down&&this.previous[i])this.released.add(i);this.buttons[i]=down;this.previous[i]=down;}}
+  down(indices=[]){return indices.some(i=>this.buttons[i]);}consume(indices=[]){for(const i of indices)if(this.pressed.delete(i))return true;return false;}consumeReleased(indices=[]){for(const i of indices)if(this.released.delete(i))return true;return false;}
+}

@@ -1,3 +1,7 @@
 // @ts-check
 import * as THREE from 'three';
-export class BatAgent { /** @param {number} index */ constructor(index){this.index=index;this.position=new THREE.Vector3((Math.random()-.5)*11,-1+Math.random()*11,-52+Math.random()*96);this.velocity=new THREE.Vector3((Math.random()-.5)*.6,(Math.random()-.5)*.25,7+Math.random()*3.5);this.phase=Math.random()*Math.PI*2;this.active=true;this.panic=0;this.captured=false;} }
+import { chooseBatRole } from './BatBehaviorProfile.js';
+export class BatAgent {
+  constructor(index,random,routes,director){this.index=index;this.random=random;this.role=chooseBatRole(random);this.routeId=routes.choose(random,director,this.role).id;this.position=new THREE.Vector3(random.range(-6,6),random.range(0,10),-54-random.range(0,18));this.velocity=new THREE.Vector3(random.range(-.3,.3),random.range(-.15,.15),random.range(7,10)*this.role.speed);this.phase=random.range(0,Math.PI*2);this.flowBias=random.next();this.active=true;this.panic=0;this.captured=false;this.routeSwitchCooldown=0;this.departureDelay=random.range(0,8);this.recentDanger=0;}
+  recycle(routes,director){this.position.set(this.random.range(-5,5),this.random.range(1,8),-54-this.random.range(0,18));this.routeId=routes.choose(this.random,director,this.role).id;this.flowBias=this.random.next();this.active=true;this.captured=false;this.panic=0;this.departureDelay=this.random.range(0,Math.max(.2,2.6/Math.max(.1,director.density)));}
+}

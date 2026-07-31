@@ -47,3 +47,11 @@ Strike preparation does not lock a target. Instead, the selected snake’s visua
 Sensory systems expose rolling CPU update timing to the performance overlay. Profile limits bound pulse histories, reflected markers, biological overlays, and thermal trail samples. The implementation avoids per-frame geometry/material creation and reuses vectors, matrices, colors, and query result objects.
 
 This is not an acoustic solver or calibrated thermography. Cave reflections are selected from authored/analytic response volumes, material ridges are procedural rather than texture-derived, and thermal persistence is bounded instanced geometry rather than a full motion-vector reprojection buffer. These choices preserve offline static deployment, stable occlusion, and predictable medium-profile cost. A future high-end path may reconstruct view-space position from composer depth and accumulate quarter-resolution history, but it must continue to use the same query and emitter interfaces.
+
+## Milestone 3 sensory gameplay
+
+`emit(origin, kind)` retains the Milestone 2 pipeline while selecting a call envelope. Quick calls travel 19 m for 0.92 s, use weaker memory/return gain, cool down rapidly, and add about half the organic awareness of a deep call. Deep calls travel 38 m for 1.9 s, populate full profile histories/clusters, and generate the stronger directional audio/boa response. Reduced flashing changes onset and intensity, not the tactical range distinction.
+
+Snake focus is an input to thermal presentation, not target selection. It raises local warm-body contrast and steadies head motion while dimming peripheral persistence; line-of-sight and depth testing remain unchanged. Activation, focus, switching afterimage, and deactivation share the existing adaptation state, so no transition reveals bodies through rock.
+
+Encounter rhythm now informs sensory audio mixing. Airflow and flock density rise independently of explicit calls, while quiet phases leave headroom for direct and reflected returns. Seed/profile/phase never alter rock truth: the same cave volumes, heat emitters, and echo responders remain spatially authoritative.

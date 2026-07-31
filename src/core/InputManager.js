@@ -1,26 +1,17 @@
 // @ts-check
-
+import { GamepadManager } from './GamepadManager.js';
+import { KEY_ACTIONS,GAMEPAD_BUTTONS } from './InputBindings.js';
+import { Settings } from './Settings.js';
 export class InputManager {
-  /** @param {HTMLCanvasElement} canvas @param {import('./EventBus.js').EventBus} events */
-  constructor(canvas, events) {
-    this.canvas = canvas; this.events = events;
-    /** @type {Set<string>} */ this.keys = new Set();
-    /** @type {Set<string>} */ this.pressed = new Set();
-    this.mouse = { x: 0, y: 0, down: false, pressed: false, released: false };
-    this.locked = false;
-    window.addEventListener('keydown', (event) => { if (!event.repeat) this.pressed.add(event.code); this.keys.add(event.code); if (['Space','ArrowUp','ArrowDown'].includes(event.code)) event.preventDefault(); });
-    window.addEventListener('keyup', (event) => this.keys.delete(event.code));
-    window.addEventListener('mousedown', (event) => { if (event.button === 0) { this.mouse.down = true; this.mouse.pressed = true; } });
-    window.addEventListener('mouseup', (event) => { if (event.button === 0) { this.mouse.down = false; this.mouse.released = true; } });
-    window.addEventListener('mousemove', (event) => { if (this.locked) { this.mouse.x += event.movementX; this.mouse.y += event.movementY; } });
-    document.addEventListener('pointerlockchange', () => { this.locked = document.pointerLockElement === canvas; events.emit('pointer-lock', { locked: this.locked }); });
-    document.addEventListener('pointerlockerror', () => events.emit('notice', { message: 'Pointer lock was denied. Click the cave to try again.' }));
-    canvas.addEventListener('click', () => { if (!this.locked) this.requestLock(); });
-  }
-  requestLock() { try { const promise = this.canvas.requestPointerLock(); promise?.catch?.(() => this.events.emit('notice', { message: 'Pointer lock was denied. Click the cave to try again.' })); } catch { this.events.emit('notice', { message: 'Pointer lock is unavailable in this browser.' }); } }
-  releaseLock() { if (document.pointerLockElement) document.exitPointerLock(); }
-  /** @param {string} code */ down(code) { return this.keys.has(code); }
-  /** @param {string} code */ consume(code) { const value = this.pressed.has(code); this.pressed.delete(code); return value; }
-  /** @returns {{x:number,y:number}} */ consumeMouse() { const result = { x: this.mouse.x, y: this.mouse.y }; this.mouse.x = 0; this.mouse.y = 0; return result; }
-  endFrame() { this.pressed.clear(); this.mouse.pressed = false; this.mouse.released = false; }
+  constructor(canvas,events,settings=null){this.canvas=canvas;this.events=events;this.settings=settings||new Settings();this.keys=new Set();this.pressed=new Set();this.released=new Set();this.mouse={x:0,y:0,down:false,pressed:false,released:false,secondaryDown:false};this.locked=false;this.activeDevice='keyboard';this.gamepad=new GamepadManager(this.settings,events);events.on('settings-changed',({key,value})=>{if(key in this.settings.values)this.settings.set(key,value);});window.addEventListener('keydown',event=>{if(!event.repeat)this.pressed.add(event.code);this.keys.add(event.code);this.setDevice('keyboard');if(['Space','ArrowUp','ArrowDown'].includes(event.code))event.preventDefault();});window.addEventListener('keyup',event=>{this.keys.delete(event.code);this.released.add(event.code);});window.addEventListener('mousedown',event=>{this.setDevice('keyboard');if(event.button===0){this.mouse.down=true;this.mouse.pressed=true;}if(event.button===2)this.mouse.secondaryDown=true;});window.addEventListener('mouseup',event=>{if(event.button===0){this.mouse.down=false;this.mouse.released=true;}if(event.button===2)this.mouse.secondaryDown=false;});window.addEventListener('contextmenu',event=>event.preventDefault());window.addEventListener('mousemove',event=>{if(this.locked){this.mouse.x+=event.movementX;this.mouse.y+=event.movementY;if(event.movementX||event.movementY)this.setDevice('keyboard');}});document.addEventListener('pointerlockchange',()=>{this.locked=document.pointerLockElement===canvas;events.emit('pointer-lock',{locked:this.locked});});document.addEventListener('pointerlockerror',()=>events.emit('notice',{message:'Pointer lock was denied. Click the cave to try again.'}));canvas.addEventListener('click',()=>{if(!this.locked)this.requestLock();});}
+  setDevice(device){if(this.activeDevice===device)return;this.activeDevice=device;this.events.emit('input-device-changed',{device});}
+  update(){this.gamepad.update();if(this.gamepad.connected&&(this.gamepad.axes.some(v=>Math.abs(v)>.08)||this.gamepad.pressed.size))this.setDevice('gamepad');}
+  requestLock(){try{const promise=this.canvas.requestPointerLock();promise?.catch?.(()=>this.events.emit('notice',{message:'Pointer lock was denied. Click the cave to try again.'}));}catch{this.events.emit('notice',{message:'Pointer lock is unavailable in this browser.'});}}
+  releaseLock(){if(document.pointerLockElement)document.exitPointerLock();}down(code){return this.keys.has(code);}consume(code){const value=this.pressed.has(code);this.pressed.delete(code);return value;}releasedKey(code){const value=this.released.has(code);this.released.delete(code);return value;}
+  actionDown(action){if(action==='strike')return this.mouse.down||this.gamepad.down(GAMEPAD_BUTTONS.strike);if(action==='echolocate'&&this.mouse.down)return true;if(action==='focus')return this.mouse.secondaryDown||this.down('KeyF')||this.gamepad.down(GAMEPAD_BUTTONS.focus);return(KEY_ACTIONS[action]||[]).some(code=>this.down(code))||this.gamepad.down(GAMEPAD_BUTTONS[action]);}
+  consumeAction(action){if(action==='echolocate'&&this.mouse.pressed){this.mouse.pressed=false;return true;}for(const code of KEY_ACTIONS[action]||[])if(this.consume(code))return true;return this.gamepad.consume(GAMEPAD_BUTTONS[action]);}
+  actionReleased(action){if((action==='strike'||action==='echolocate')&&this.mouse.released){this.mouse.released=false;return true;}for(const code of KEY_ACTIONS[action]||[])if(this.releasedKey(code))return true;return this.gamepad.consumeReleased(GAMEPAD_BUTTONS[action]);}
+  axis(name){const keyboard={moveX:Number(this.down('KeyD'))-Number(this.down('KeyA')),moveY:Number(this.down('KeyW'))-Number(this.down('KeyS'))};if(name in keyboard&&keyboard[name])return keyboard[name];if(name==='moveX')return this.gamepad.axes[0]||0;if(name==='moveY')return this.gamepad.axes[1]||0;return 0;}
+  consumeMouse(){const sensitivity=this.settings.get('gamepadSensitivity'),invert=this.settings.get('invertY')?-1:1,result={x:this.mouse.x+(this.gamepad.axes[2]||0)*18*sensitivity,y:(this.mouse.y+(this.gamepad.axes[3]||0)*18*sensitivity)*invert};this.mouse.x=0;this.mouse.y=0;return result;}
+  endFrame(){this.pressed.clear();this.released.clear();this.mouse.pressed=false;this.mouse.released=false;}
 }

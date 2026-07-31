@@ -33,3 +33,11 @@ Enable **Performance overlay** in Settings. It reports rolling FPS/frame time, c
 7. Pool impact rings and wake sprites after production effect counts grow.
 
 The game avoids per-frame geometry/material/texture allocation, remote resources, unbounded emitters, and high-detail mesh collision. Echo clusters and thermal history use fixed pools; shared query records and creature matrices are reused. The O(n²) flock neighbor loop and full-scene heat-emitter traversal remain the largest CPU cleanup opportunities.
+
+## Milestone 3 budgets and profiling
+
+The director is one constant-size phase calculation. Route occupancy is one bounded pass over the existing flock, five route counters are reused, every snake owns five decaying route values, and random streams hold a single integer state. Behavioral histories and call/strike events cannot grow with session length. The pilot GLB adds one small mixer, three actions, three triangle meshes, and four sensory proxies only when enabled.
+
+The debug overlay now includes session seed, director phase/time, five route occupancies, panic count, average snake alertness, and active input device. Profile peak traffic rather than stillness: use a fixed seed, advance to the peak phase, record ten seconds with and without thermal/echo, and compare director, sensory, flock, fixed-step, and render timing. Same-seed samples make regressions comparable.
+
+Quality still controls allocated flock size, so profile changes take effect for the next run. At current profile bases (22/34/48), difficulty density produces approximately 20–57 bat agents; all loops remain bounded. Medium remains the default. The Milestone 3 software-WebGL regression used exact 60 Hz manual steps to verify identical same-seed profile, roles, routes, positions, panic, and alertness across repeated runs; visual frame-rate figures should still be measured on the target hardware.

@@ -1,0 +1,3 @@
+// @ts-check
+export const HERO_BAT_METADATA=Object.freeze({assetId:'hero-bat-pilot',path:'./assets/models/bats/hero-bat-pilot.glb',license:'Project-created MIT test asset',expectedScale:.36,maxTriangles:100,forwardAxis:'+Z',upAxis:'+Y',nodes:{root:'HeroBat',leftWing:'Wing_L',rightWing:'Wing_R',head:'Head',body:'Body',mouth:'Mouth'},animations:{flap:'flap',glide:'glide',brake:'brake'},heatRegions:['Body','Head','Wing_L','Wing_R'],echoRegions:['HeroBat'],attachments:{camera:'Head',capture:'Body'},lod:[],fallback:'BatFirstPersonRig'});
+export function validateMetadata(metadata){return Boolean(metadata?.assetId&&metadata?.path&&metadata?.nodes?.root&&metadata?.fallback);}

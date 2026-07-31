@@ -37,3 +37,11 @@ No fantasy crystals, fluorescent cave plants, cyberpunk blue/magenta washes, arb
 The chamber keeps its layout but gains deterministic limestone pore/roughness breakup, pale mineral runoff, selected wet surfaces, deeper entrance haze, and black vegetation silhouettes. The cave-mouth disk is radially feathered so the final approach reads as humid exterior air rather than a UI beacon. Major echo geometry deliberately separates cool mineral memory from dense amber-organic boa returns.
 
 First-person anatomy is peripheral: bat membranes enter during effort and asymmetry, while boa cheeks and pit rows remain below the hunting line. Neither rig is allowed to occupy the aiming center continuously. Thermal adaptation suppresses normal moon/bounce lighting as warm emitters clarify, preserving black rock and spatial depth instead of applying a red/blue screen grade.
+
+## Living behavior and information
+
+Variation is staged as documentary rhythm, not wave UI. Stillness uses negative space and isolated sound; peak emergence thickens silhouettes, wing noise, mist motion, and interrupted thermal tracks. Route corridors are never drawn. Airflow and traffic give the mouth directional presence without turning moonlight into a quest marker.
+
+Onboarding and reports use the field-station typography already present. Prompts sit outside the aiming center and describe bodily action, not key trivia alone. Seeds are specimen/session labels. Difficulty names preserve the natural-history tone. Gamepad labels replace keyboard labels in place; no controller diagram overlays the world.
+
+The GLB pilot is deliberately subordinate to art direction: scale is anatomical, membranes remain peripheral, material response is restrained, and fallback is visually coherent. A production model must improve silhouette, deformation, and surface truth without changing heat hierarchy or overwhelming the sensory compositions.

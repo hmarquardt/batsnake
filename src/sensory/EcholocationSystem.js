@@ -13,16 +13,17 @@ export class EcholocationSystem {
     this.world.materials.setEchoProfile(settings.profile());
   }
 
-  /** @param {THREE.Vector3} origin */
-  emit(origin){
+  /** @param {THREE.Vector3} origin @param {'quick'|'full'} [kind] */
+  emit(origin,kind='full'){
     if(this.cooldown>0||this.pulse)return false;
-    const profile=this.settings.profile();const slot=this.historyCursor++%profile.echoHistories;
+    const profile=this.settings.profile(),quick=kind==='quick',range=quick?19:38,duration=quick ? .92 : 1.9,memory=quick ? .58 : 1;const slot=this.historyCursor++%profile.echoHistories;
     this.historyActive[slot]=true;this.world.materials.echoUniforms.pulseOrigins.value[slot].copy(origin);this.world.materials.echoUniforms.pulseAges.value[slot]=0;
-    this.pulse=new EcholocationPulse(this.scene,origin,34,1.72);this.cooldown=this.maxCooldown;
-    const reflections=this.world.spatial.reflections(origin,34,profile.echoReturns);
-    this.returnPool.schedule(reflections,this.intensity(),this.settings.get('reducedFlashing'));
+    this.world.materials.echoUniforms.pulseRange.value=range;this.world.materials.echoUniforms.memoryDecay.value=profile.echoMemory*memory;
+    this.pulse=new EcholocationPulse(this.scene,origin,range,duration);this.maxCooldown=(quick ? .68 : 1.65)*(this.settings.get('difficulty')==='flightline'?1.12:this.settings.get('difficulty')==='field' ? .9 : 1);this.cooldown=this.maxCooldown;
+    const reflections=this.world.spatial.reflections(origin,range,quick?Math.max(3,Math.floor(profile.echoReturns*.45)):profile.echoReturns);
+    this.returnPool.schedule(reflections,this.intensity()*(quick ? .72 : 1),this.settings.get('reducedFlashing'));
     const audioReturns=reflections.map((hit)=>({kind:hit.kind,position:hit.position.clone(),distance:hit.distance,strength:hit.strength}));
-    this.events.emit('echolocation-pulse',{origin:origin.clone(),range:34,reflections:audioReturns});
+    this.events.emit('echolocation-pulse',{origin:origin.clone(),range,reflections:audioReturns,kind});
     return true;
   }
 

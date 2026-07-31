@@ -26,9 +26,9 @@ Rapier holds deliberately simple static chamber volumes. Player flight uses a ma
 
 ## Sensory systems
 
-`EcholocationSystem` emits an `EcholocationPulse` with world origin, radius, duration, and range. A second chamber surface uses a world-position shader: only the moving band, a short passed-surface trace, and grazing contours contribute. Tagged landmarks create sparse hard returns. The expanding shell is a readable wavefront rather than a brightness switch. Snake rigs subscribe to the pulse event and briefly develop an organic return/awareness response. This version does not solve multi-bounce acoustics; depth-buffer reconstruction and reflected hit clusters are the documented upgrade.
+`EcholocationSystem` emits a quick or deep `EcholocationPulse` with world origin, radius, duration, range, and acoustic-memory envelope. Shared cave-material history uniforms produce the moving band, recent passed-surface trace, procedural ridges, and grazing contours. The shared spatial service selects delayed hard returns from walls, floor/shelf, columns, mouth, and nearby organic responders. The shell remains a readable wavefront rather than a brightness switch; this is an authored reflection model, not multi-bounce acoustic simulation.
 
-`ThermalVisionSystem` toggles dedicated heat proxy meshes that remain in the normal depth graph, so walls still occlude bats. Body proxies are brighter than membrane proxies. Fog/background move toward cool near-black while transient wake sprites retain motion direction. It is a separate system from snake control; accessibility-through-wall highlighting is intentionally absent.
+`ThermalVisionSystem` toggles registered regional heat meshes that remain in the normal depth graph, so walls still occlude bats. Torso, head, root, membrane, snake head, and snake body retain distinct values. Fog/background move toward cool near-black while a bounded profile-specific world-space history retains motion direction. Focus adjusts local/peripheral clarity without selecting a target. It remains separate from snake control; accessibility-through-wall highlighting is intentionally absent.
 
 ## Rendering
 
@@ -53,3 +53,13 @@ The application `EventBus` carries cross-system facts rather than mutable servic
 Creature gameplay still terminates at controller state. `BatFirstPersonRig` reads velocity, bank, flap cadence, brake/dive input, and collision/near-miss events. `SnakeRig` deforms one continuous tube along stable Catmull-Rom control points and exposes mouth, capture, heat, echo, visual-state, and body-bound accessors. `SnakeFirstPersonRig` is a camera-local facial adapter. These form the replacement seam for GLB visuals; they do not create a second controller stack.
 
 Echo and thermal profile budgets live in `Settings.profile()`. Both systems expose their latest CPU update time. `PostProcessing` resets and accumulates renderer counters across composer passes, allowing `PerformanceOverlay` to report render time, sensory time, draw calls, triangles, textures, render targets, flock size, particles, and physics cadence. See `SENSORY_RENDERING.md` for the complete sensory pipeline.
+
+## Milestone 3 session architecture
+
+`App.startMode()` creates one session context: normalized seed, root `Random`, difficulty, weighted encounter profile, `EncounterDirector`, and shared `FlightRouteNetwork`. Named random forks isolate systems so adding cosmetic sampling does not silently reorder AI choices. The director publishes bounded phase/density/panic/pressure state; it never sets a creature transform. `BatFlock` owns role/route decisions, while each `SnakeAI` owns a bounded `SnakeMemory`.
+
+`InputManager` now exposes semantic actions/axes from keyboard, pointer, and `GamepadManager`; modes remain device-agnostic. Active-device changes only swap HUD labels. Dead zone, sensitivity, invert Y, and controller enable state are validated and persisted. Invalid saved settings are clamped or replaced by defaults.
+
+`ModelAdapter` is the single optional GLB seam. It loads through `AssetManager`, validates metadata, resolves nodes/clips, owns an animation mixer and cloned presentation resources, registers heat/echo regions, exposes attachment transforms, and disposes itself. It consumes the same visual state as `BatFirstPersonRig`; gameplay never reaches into the model. See `MODEL_INTEGRATION.md`.
+
+The overlay adds seed, phase, route occupancy, panic count, average snake alertness, active device, and director CPU time. Event queues remain synchronous/bounded; route counts and snake histories reuse fixed records. Same-seed determinism applies to broad fixed-step encounter behavior, not render interpolation or cross-browser bit identity.

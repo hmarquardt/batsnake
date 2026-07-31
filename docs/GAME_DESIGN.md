@@ -30,6 +30,16 @@ The core dramatic cycle is reciprocal: the bat calls to learn, the call alerts t
 
 ## Difficulty and progression
 
-The vertical slice has one authored difficulty. Future difficulty should adjust sensory cooldown/range, flight reserve recovery, strike recovery, AI aggression/noise, stream density, and route variance—not merely animal speed. Potential progression is documentary rather than power fantasy: new caves, seasonal colony states, weather/entrance light, different anchor anatomy, conservation field notes, scored observation challenges, and additional predator/prey perspectives.
+Field Study, Night Flight, and Flight Line adjust sensory cooldown, recovery, AI reaction/noise, stream density, panic, route pressure, target, duration, and score—not merely animal speed. There are no hit points or unlock trees. Any future progression should remain documentary rather than power fantasy: seasonal colony states, weather/entrance light, different anchor anatomy, conservation field notes, scored observation challenges, and additional predator/prey perspectives.
 
 Future levels should preserve one readable ecological idea each: a flooded chamber with reflection-confused echoes, a constricted nursery with lower-speed flight, a storm-driven mass departure, and a sparse late-season stream emphasizing patient snake selection.
+
+## Living Hunt
+
+Milestone 3 replaces the single cadence with seeded authored variation. Five corridors, eight encounter profiles, five bat temperaments, seven director phases, and short-term boa memory make the same chamber readable but not rote. Repetition teaches where pressure tends to form without guaranteeing the same safe line.
+
+Bat tactical play now distinguishes quick calls from deep calls. Quick calls solve immediate control with less warning; deep calls form a durable spatial plan and expose the caller. Airflow, mist, dust, and the rising colony bed reinforce exit direction. Clean, controlled flight with useful calling scores better than blind pulse hoarding.
+
+Snake tactical play adds narrow heat focus, posture-sensitive strike quality, post-switch adaptation, and group memory. Broad perception spots opportunity; focus improves a single motion line while sacrificing the periphery. Scores favor accurate intercepts, patient but active observation, pressured captures, and useful post selection rather than indefinite waiting.
+
+Field Study, Night Flight, and Flight Line change animal reaction, panic, traffic, route pressure, session pacing, recovery, target, and multiplier. Neither animal has health. Contextual prompts disappear when the player demonstrates an action and never require a separate tutorial chamber. See `ENCOUNTER_DESIGN.md` for parameters and determinism boundaries.

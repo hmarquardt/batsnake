@@ -1,0 +1,16 @@
+{
+  "assetId": "hero-bat-pilot",
+  "localPath": "assets/models/bats/hero-bat-pilot.glb",
+  "license": "Project-created MIT test asset",
+  "expectedScaleMeters": 0.36,
+  "maxTriangles": 100,
+  "forwardAxis": "+Z",
+  "upAxis": "+Y",
+  "namedNodes": ["HeroBat", "Body", "Head", "Wing_L", "Wing_R", "Mouth"],
+  "animations": ["flap", "glide", "brake"],
+  "heatRegions": ["Body", "Head", "Wing_L", "Wing_R"],
+  "echoRegions": ["HeroBat"],
+  "attachmentPoints": {"camera": "Head", "capture": "Body"},
+  "lod": [],
+  "fallback": "BatFirstPersonRig"
+}

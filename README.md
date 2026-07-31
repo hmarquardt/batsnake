@@ -22,7 +22,8 @@ Open <http://localhost:8080>. Use a current desktop Chrome, Edge, Firefox, or Sa
 | Space | Flap; reserve regenerates while gliding |
 | Shift | Dive and accelerate |
 | S | Spread wings / brake |
-| E or primary click | Emit echolocation pulse |
+| Tap E / primary click | Quick call: nearby geometry, low warning cost |
+| Hold and release E / primary click | Deep call: longer memory, cooldown, and warning cost |
 | Escape | Pause |
 | R | Restart run |
 
@@ -38,13 +39,25 @@ Reach the moonlit mouth. The flight model includes momentum, drag, lift, gravity
 | Hold primary click | Tension the strike |
 | Release primary click | Commit to a physical lunge |
 | T | Toggle heat-pit perception |
+| F or secondary click | Narrow heat focus and steady the head |
 | Q / E | Transfer awareness between three snakes |
 | Escape | Pause |
 | R | Restart hunt |
 
-Capture four bats before the departure stream ends. Strikes have charge, travel time, swept collision, capture, recoil, and recovery; the bat must be led rather than clicked.
+Capture the difficulty-specific target before the stream ends. Strikes have charge, travel time, swept collision, capture, recoil, and recovery; the bat must be led rather than clicked. Focus sacrifices peripheral heat clarity, while switching posts carries a brief adaptation and charge cost.
 
-## Milestone 2 vertical slice
+Common dual-stick gamepads are optional. Bat: sticks steer/look, south/right shoulder flaps, left trigger dives, left shoulder brakes, and east calls. Snake: right stick aims, left stick repositions, left trigger focuses, right trigger strikes, shoulders switch, and west toggles thermal. Settings include dead zone, sensitivity, invert Y, enable/disable, and contextual HUD labels.
+
+## Milestone 3: Living Hunt
+
+- Every run receives a copyable seed and one of eight authored encounter profiles. A seven-phase director shapes stillness, buildup, peak traffic, disruption, final stream, and resolution without directly steering creatures.
+- Five invisible corridors support central speed, high flight, low column weaving, shelf cover, and a wide outside arc. Leaders, followers, edge flyers, juveniles, and fast escape flyers react differently to traffic, panic, calls, and strikes.
+- Boas keep bounded short-term memory of routes, calls, misses, successful lanes, local traffic, player sightings, and confidence. Companions adjust slowly around their anchors and avoid duplicate lunges without becoming perfectly coordinated.
+- Field Study, Night Flight, and Flight Line alter behavioral pressure, reaction, panic, density, encounter timing, recovery, targets, and score multiplier—not health.
+- Quick/deep bat calls and broad/focused snake heat create sensory discipline. Field reports expose meaningful performance facts and offer same-seed replay or a fresh encounter.
+- Contextual first-run prompts record learned actions locally and can be disabled. A project-created animated hero-bat GLB validates the complete optional model pipeline and procedural fallback.
+
+The Milestone 2 sensory and embodiment foundation remains intact:
 
 - Art-directed tropical limestone chamber with a deep roost, narrow entrance, diagonal flow, columns, ceiling shelf, wet formations, guano zones, dust, droplets, fog, and controlled moonlight.
 - Animated reactive flock with path bias, separation, player avoidance, snake avoidance, panic, and recycled departure traffic.
@@ -71,7 +84,9 @@ python3 tools/verify-vendor.py
 - `src/core/` — lifecycle, fixed loop, state, input, settings, assets, events
 - `src/world/` — chamber composition, materials, lighting, navigation, physics
 - `src/entities/` — bat flight/flock and snake rig/network/AI/strike
-- `src/gameplay/` — modes, objectives, scoring, collision policy
+- `src/gameplay/` — modes, director/profiles, seeds, difficulty, onboarding, objectives, scoring
+- `src/world/FlightRouteNetwork.js` / `AirflowSystem.js` — authored route ecology and draft cues
+- `src/assets/` — optional GLB adapter and metadata contract
 - `src/sensory/` — echolocation, thermal proxies/wakes, threat state
 - `src/effects/`, `src/audio/`, `src/ui/` — presentation boundaries
 - `vendor/` — exact local runtime libraries
@@ -88,11 +103,11 @@ Low, medium, and high profiles change pixel ratio, shadows, bloom, particles, pu
 Create a local, uncommitted capture set as follows:
 
 1. Run `python3 -m http.server 8080`, open the game at 1440×900 or 1920×1080, and create `captures/` if needed. The directory is gitignored.
-2. In browser DevTools, use **Command Menu → Capture screenshot**. Keep the HUD visible; hide the performance overlay for frames 1–10.
-3. Capture, in order: `01-main-menu`, `02-bat-darkness` during a flap, `03-echo-wavefront`, `04-echo-memory` after the shell passes, `05-biological-return` near a boa, `06-snake-normal`, `07-thermal-flock`, `08-charged-strike`, `09-capture`, and `10-escape` on final approach.
-4. Enable the overlay and capture `11-performance-medium`; switch Quality to High and capture `12-performance-high`. Record viewport, browser, graphics adapter, and resolution scale with the set.
+2. In browser DevTools, use **Command Menu → Capture screenshot**. Select a fixed seed and record seed, profile, difficulty, viewport, browser, GPU, and resolution scale beside the images.
+3. Capture: profile variation, split traffic, panic cascade, quick call, deep call, braking wings, broad thermal, focused heat, companion repositioning, a pressured strike lane, field report, difficulty selection, gamepad labels, GLB pilot, procedural fallback, and peak-traffic performance overlay.
+4. Name the set `m3-01-…` through `m3-16-…`. Toggle **Hero GLB pilot** off for the fallback frame. `captures/` is gitignored and should remain uncommitted.
 
-The milestone validation set uses the `m2-NN-description.png` naming above. Do not commit large PNGs unless a release task explicitly asks for them.
+Milestone 2 frames may remain locally beside this set. Do not commit large PNGs unless a release task explicitly asks for them.
 
 ## GitHub Pages
 
@@ -100,4 +115,4 @@ The application uses only repository-relative URLs and needs no rewrite rules. I
 
 ## Known limitations
 
-The slice still uses procedural animal and cave render assets. Distant and near bats share one instanced topology, collision remains intentionally coarser than render geometry, high thermal persistence is pooled geometry rather than motion-vector reprojection, and echolocation uses tagged/analytic reflectors rather than acoustic path tracing. Flock density changes on the next run after changing quality. See [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), [NEXT_STEPS.md](docs/NEXT_STEPS.md), and [ASSET_MANIFEST.md](docs/ASSET_MANIFEST.md).
+The slice still uses procedural cave/boa art and an intentionally tiny pilot bat model. Determinism covers encounter structure and fixed-step AI decisions, not cross-browser floating-point-perfect input replay or cosmetic particles. Flock density changes on the next run after changing quality. See [ENCOUNTER_DESIGN.md](docs/ENCOUNTER_DESIGN.md), [MODEL_INTEGRATION.md](docs/MODEL_INTEGRATION.md), [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), and [NEXT_STEPS.md](docs/NEXT_STEPS.md).
