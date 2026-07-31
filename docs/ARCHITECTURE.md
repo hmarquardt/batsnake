@@ -45,3 +45,11 @@ The renderer uses ACES filmic tone mapping and sRGB output. The chamber shell is
 ## Event flow
 
 The application `EventBus` carries cross-system facts rather than mutable services: `echolocation-pulse`, `snake-strike-started`, `bat-captured`, `player-collision`, `near-miss`, `thermal-changed`, `snake-switched`, `settings-changed`, `asset-error`, and `notice`. Owners still call their tightly coupled children directly. Unsubscribe functions are stored by modes to prevent listeners leaking across restarts.
+
+## Milestone 2 visual adapters and spatial authority
+
+`SpatialQuerySystem` now owns reusable analytic queries over the authored tunnel and a bounded set of important formations. `CaveGenerator` registers columns, the shelf, major stalactites, and the mouth; `SnakeNetwork` registers live head/coil bounds. Echolocation reflection selection, AI line of sight, thermal-history rejection, bat obstacle anticipation, near-miss distance, and soft player resolution call this service. Three.js remains the render source and Rapier retains fixed colliders for broad walls and the same major obstacle set.
+
+Creature gameplay still terminates at controller state. `BatFirstPersonRig` reads velocity, bank, flap cadence, brake/dive input, and collision/near-miss events. `SnakeRig` deforms one continuous tube along stable Catmull-Rom control points and exposes mouth, capture, heat, echo, visual-state, and body-bound accessors. `SnakeFirstPersonRig` is a camera-local facial adapter. These form the replacement seam for GLB visuals; they do not create a second controller stack.
+
+Echo and thermal profile budgets live in `Settings.profile()`. Both systems expose their latest CPU update time. `PostProcessing` resets and accumulates renderer counters across composer passes, allowing `PerformanceOverlay` to report render time, sensory time, draw calls, triangles, textures, render targets, flock size, particles, and physics cadence. See `SENSORY_RENDERING.md` for the complete sensory pipeline.

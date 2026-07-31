@@ -44,13 +44,14 @@ Reach the moonlit mouth. The flight model includes momentum, drag, lift, gravity
 
 Capture four bats before the departure stream ends. Strikes have charge, travel time, swept collision, capture, recoil, and recovery; the bat must be led rather than clicked.
 
-## Current vertical slice
+## Milestone 2 vertical slice
 
 - Art-directed tropical limestone chamber with a deep roost, narrow entrance, diagonal flow, columns, ceiling shelf, wet formations, guano zones, dust, droplets, fog, and controlled moonlight.
 - Animated reactive flock with path bias, separation, player avoidance, snake avoidance, panic, and recycled departure traffic.
-- Reusable world-space echolocation wave with a moving surface band, after-trace, landmark returns, biological snake response, cooldown, threat cost, and directional synthesized echoes.
-- Occlusion-respecting thermal view using visible heat proxy geometry, separate warm core/cool membrane values, additive heat bloom, distance haze, and transient hooks for thermal wakes.
-- Three spline-like segmented boas, embodied head view, facial pits, jaw, eyes, tongue, coils, imperfect companion AI, physical strikes, capture, and cooldown.
+- Layered world-space echolocation with a traveling shell, formation-specific surface response, overlapping acoustic memories, delayed reflected clusters, organic head/coil returns, cooldown, threat cost, and geometry-derived positional echoes.
+- Occlusion-respecting thermal adaptation with distinct torso, head, wing-root, membrane, snake-head, and snake-body values plus bounded world-space persistence trails.
+- First-person bat wings react to flap, glide, brake, dive, bank, collision, and panic. Three continuously deformed spline boas expose facial pits, jaws, tongue, tightening coils, capture attachment, and a sensory awareness transfer.
+- Shared spatial queries drive major-formation collision, echo reflectors, line of sight, thermal persistence rejection, obstacle anticipation, and near-miss distance.
 - Complete menu, settings, both objectives, pause, outcomes, scoring, restart, quality profiles, missing-asset fallbacks, and performance overlay.
 - Local Three.js 0.185.1 and Rapier 0.19.3, pinned with per-file SHA-256 checksums.
 - Procedural Web Audio cave bed and positional calls, flaps, drips, impacts, strikes, and captures. No remote media is requested.
@@ -80,11 +81,18 @@ python3 tools/verify-vendor.py
 
 ## Graphics and accessibility
 
-Low, medium, and high profiles change pixel ratio, shadows, bloom, particles, and future-run flock density without a page reload. Resolution scale is independently adjustable. Reduced camera motion removes bank/wingbeat/FOV emphasis; reduced flashing is reserved by sensory systems as their intensity ceiling. Volume buses, sensory intensity, fullscreen, and an optional performance overlay are included. Settings live only in `localStorage`; there are no cookies, analytics, or telemetry.
+Low, medium, and high profiles change pixel ratio, shadows, bloom, particles, pulse-history count, acoustic-memory duration, reflected-return count, thermal-persistence budget, and future-run flock density without a page reload. Resolution scale is independently adjustable. Reduced camera motion limits camera/body impulses and skips the traveling snake-switch camera; reduced flashing softens wavefront peaks, return onset, and thermal adaptation. Volume buses, sensory intensity, fullscreen, and an optional performance overlay are included. Settings live only in `localStorage`; there are no cookies, analytics, or telemetry.
 
 ## Captures
 
-Run the local server at 1440×900 or 1920×1080. Hide the performance overlay for art captures; show it for profiling captures. Recommended frames are the live title view, a bat echo band crossing the central column, normal snake vision, and thermal view with a charged strike. Browser screenshots work directly; Chrome’s DevTools capture produces full-resolution PNGs.
+Create a local, uncommitted capture set as follows:
+
+1. Run `python3 -m http.server 8080`, open the game at 1440×900 or 1920×1080, and create `captures/` if needed. The directory is gitignored.
+2. In browser DevTools, use **Command Menu → Capture screenshot**. Keep the HUD visible; hide the performance overlay for frames 1–10.
+3. Capture, in order: `01-main-menu`, `02-bat-darkness` during a flap, `03-echo-wavefront`, `04-echo-memory` after the shell passes, `05-biological-return` near a boa, `06-snake-normal`, `07-thermal-flock`, `08-charged-strike`, `09-capture`, and `10-escape` on final approach.
+4. Enable the overlay and capture `11-performance-medium`; switch Quality to High and capture `12-performance-high`. Record viewport, browser, graphics adapter, and resolution scale with the set.
+
+The milestone validation set uses the `m2-NN-description.png` naming above. Do not commit large PNGs unless a release task explicitly asks for them.
 
 ## GitHub Pages
 
@@ -92,4 +100,4 @@ The application uses only repository-relative URLs and needs no rewrite rules. I
 
 ## Known limitations
 
-The first slice uses procedural animal and cave render assets; the snakes are transform-driven rather than skinned, distant and near bats share the same instanced silhouette, thermal wakes are lightweight sprites, cave collision is intentionally coarser than render geometry, and echolocation approximates reflection through tagged surface responses instead of acoustic ray tracing. Flock density changes on the next run after changing quality. See [NEXT_STEPS.md](docs/NEXT_STEPS.md) and [ASSET_MANIFEST.md](docs/ASSET_MANIFEST.md).
+The slice still uses procedural animal and cave render assets. Distant and near bats share one instanced topology, collision remains intentionally coarser than render geometry, high thermal persistence is pooled geometry rather than motion-vector reprojection, and echolocation uses tagged/analytic reflectors rather than acoustic path tracing. Flock density changes on the next run after changing quality. See [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), [NEXT_STEPS.md](docs/NEXT_STEPS.md), and [ASSET_MANIFEST.md](docs/ASSET_MANIFEST.md).

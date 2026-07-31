@@ -31,3 +31,9 @@ Bat motion begins in shoulder and finger structure; membranes lag, gliding simpl
 ## Prohibited clichés
 
 No fantasy crystals, fluorescent cave plants, cyberpunk blue/magenta washes, arbitrary colored point lights, uniform wall brightness, excessive bloom, gore splashes, haunted-house props, rubber tube snakes, paper-cutout bats, spaceship controls, or full-screen red damage filters. Fear comes from incomplete perception, living traffic, occlusion, and commitment.
+
+## Milestone 2 application
+
+The chamber keeps its layout but gains deterministic limestone pore/roughness breakup, pale mineral runoff, selected wet surfaces, deeper entrance haze, and black vegetation silhouettes. The cave-mouth disk is radially feathered so the final approach reads as humid exterior air rather than a UI beacon. Major echo geometry deliberately separates cool mineral memory from dense amber-organic boa returns.
+
+First-person anatomy is peripheral: bat membranes enter during effort and asymmetry, while boa cheeks and pit rows remain below the hunting line. Neither rig is allowed to occupy the aiming center continuously. Thermal adaptation suppresses normal moon/bounce lighting as warm emitters clarify, preserving black rock and spatial depth instead of applying a red/blue screen grade.

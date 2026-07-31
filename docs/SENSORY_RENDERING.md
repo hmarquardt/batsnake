@@ -1,0 +1,49 @@
+# Sensory rendering
+
+## Milestone 2 architecture
+
+Both sensory modes use the same physical cave and depth buffer, but they reveal different metadata. The implementation keeps creature controllers unaware of render technique. `SpatialQuerySystem` is the shared geometric authority for major formations, analytic tunnel bounds, reflection selection, line of sight, obstacle anticipation, and swept proximity. Render systems consume its results; they do not maintain duplicate cave ray logic.
+
+### Spatial query data
+
+The authored cave registers a small list of high-value response volumes: the side walls and floor are analytic tunnel surfaces; columns and the hanging shelf are bounded formations; selected stalactites are major hazards; the mouth is a directional plane; snake rigs register dynamic organic responders. Each record has a stable id, kind, center/bounds, acoustic reflectivity, thermal character, and gameplay role.
+
+Three.js geometry remains the visual source, Rapier remains the fixed physics source, and analytic/tagged volumes handle frequent perception queries. This division is intentional:
+
+- Rapier: fixed collision bodies and future physical casts.
+- Analytic cave volumes: player collision correction, wall/floor reflection points, entrance boundaries.
+- Tagged bounds: columns, shelf, major stalactites, echo clusters, bat anticipation, and inexpensive line-of-sight rejection.
+- Dynamic responder bounds: snakes and other moving biological targets.
+
+## Echolocation pipeline
+
+The implemented layered pipeline preserves `emit(origin)`, cooldown, range, threat propagation, sensory intensity, and reduced-flashing behavior.
+
+1. **Direct wavefront** — a pooled translucent world-space shell travels from the bat. It communicates propagation but contributes little persistent brightness.
+2. **Surface response** — the tunnel and tagged formation echo meshes share a bounded pulse-history uniform array. World distance gates the moving band; view-normal and procedural ridge terms emphasize silhouettes, concavity, and broken surface scale rather than raising the cave’s total exposure.
+3. **Acoustic memory** — each pulse slot records origin and age. After arrival (`age - distance / waveSpeed`), an uneven exponential response remains for a profile-specific one-to-three-second window. New calls rotate through slots so recent geometry can overlap without becoming permanent.
+4. **Reflected returns** — `SpatialQuerySystem` selects the strongest visible side wall, floor/shelf, column, mouth, and nearby biological reflectors. Pooled marker clusters activate after distance-derived delays and decay individually.
+5. **Biological response** — snake visual adapters expose organic echo-response geometry for head, neck, and coils. Their denser, warmer stipple and motion-biased decay differ from the cave’s thin mineral edge response.
+6. **Audio** — the same reflection records schedule comfortable positional oscillator returns. Delay, frequency, decay, and gain derive from distance, reflector kind, and reflectivity.
+
+Low uses the direct shell, one pulse-memory slot, simplified tunnel response, and very few clusters. Medium adds important formations, two memory slots, and moderate clusters. High uses three histories, richer ridge/normal response, biological overlays, and the full bounded return set.
+
+## Thermal pipeline
+
+Heat is explicit entity metadata, not a full-screen false-color filter. Visual adapters register render objects by region: torso, head, wing root, membrane, active muscle, snake head, and snake body. Each emitter record provides nominal temperature, current activity, bounds, and its owner.
+
+Activation drives a smooth adaptation value. Warm regions resolve first; cool cave fog and wet surfaces settle afterward. Deactivation leaves a short warm persistence while normal exposure returns. Materials remain in the ordinary scene depth graph, so cave geometry occludes both live heat and persistence.
+
+High quality uses a bounded instanced history pool sampled from actual moving emitters. Samples keep position, velocity-biased scale, temperature, age, and owner visibility; they depth-test against the cave and decay rapidly. Medium uses fewer, shorter samples. Low uses only live emitter geometry and minimal persistence. No profile allocates sprites or materials per frame.
+
+Strike preparation does not lock a target. Instead, the selected snake’s visual state increases local adaptation and gives moving nearby heat a slightly longer history, making intercept timing legible through motion.
+
+## Accessibility
+
+`sensoryIntensity` scales response luminance and persistence opacity without changing query range or gameplay information. `reducedFlashing` lowers wavefront peaks, reflected-cluster onset, and adaptation speed while retaining spatial timing. `reducedCameraMotion` affects embodiment and switching motion, not sensory geometry. No default option reveals creatures through rock.
+
+## Measurement and limits
+
+Sensory systems expose rolling CPU update timing to the performance overlay. Profile limits bound pulse histories, reflected markers, biological overlays, and thermal trail samples. The implementation avoids per-frame geometry/material creation and reuses vectors, matrices, colors, and query result objects.
+
+This is not an acoustic solver or calibrated thermography. Cave reflections are selected from authored/analytic response volumes, material ridges are procedural rather than texture-derived, and thermal persistence is bounded instanced geometry rather than a full motion-vector reprojection buffer. These choices preserve offline static deployment, stable occlusion, and predictable medium-profile cost. A future high-end path may reconstruct view-space position from composer depth and accumulate quarter-resolution history, but it must continue to use the same query and emitter interfaces.
