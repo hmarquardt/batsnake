@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "retrieved": "2026-07-31",
+  "dependencies": {
+    "three": {
+      "version": "0.185.1",
+      "license": "MIT",
+      "source": "https://registry.npmjs.org/three/-/three-0.185.1.tgz",
+      "modified": false,
+      "notes": "Official npm release; only the runtime core and addons imported by Batsnake are vendored.",
+      "files": [
+        {"path":"vendor/three/three.module.js","url":"https://unpkg.com/three@0.185.1/build/three.module.js","sha256":"bbf5ed13fe4373f5bd38b14ea8e62e9f157327da5638edc6d3863e08b167c9c7"},
+        {"path":"vendor/three/three.core.js","url":"https://unpkg.com/three@0.185.1/build/three.core.js","sha256":"3718df126d69c125362a03340913204470d8c50238605150e57f808840fb7759"},
+        {"path":"vendor/three/addons/loaders/GLTFLoader.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/loaders/GLTFLoader.js","sha256":"97642d720f16cc9a0c9844934198e4d0c023bea8e89576d0f7545d03b2d103d2"},
+        {"path":"vendor/three/addons/loaders/HDRLoader.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/loaders/HDRLoader.js","sha256":"0986b578f9acd14cec74e5ee85e07f45e681b40bcd229a601a0391201f9b5ff1"},
+        {"path":"vendor/three/addons/loaders/RGBELoader.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/loaders/RGBELoader.js","sha256":"6c08f9c441040a61a188ad7711078da4df48f8c5ac3b3725dd6f10ac9ff81162"},
+        {"path":"vendor/three/addons/postprocessing/EffectComposer.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/EffectComposer.js","sha256":"4e079a5886152d7e529a59aef644e968ab4d32c6a33ce016b36bf29b2eac26f7"},
+        {"path":"vendor/three/addons/postprocessing/MaskPass.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/MaskPass.js","sha256":"7cd08eee9d5d6f5578beaddbdcbe9c384f6873810af27f22ab7db3ceeb127aa3"},
+        {"path":"vendor/three/addons/postprocessing/OutputPass.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/OutputPass.js","sha256":"02e4a261af34de71338185e9e87f0cbe5cba9115608d984363e1269dec1d2272"},
+        {"path":"vendor/three/addons/postprocessing/Pass.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/Pass.js","sha256":"444b409c235ead986893c472e720da1b779a56985c7d10b279c7944b52bd61c5"},
+        {"path":"vendor/three/addons/postprocessing/RenderPass.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/RenderPass.js","sha256":"817f6c3cdcd0fd41515d112359ea0532568eefb5aabd3b33903957ebca1b8a6a"},
+        {"path":"vendor/three/addons/postprocessing/ShaderPass.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/ShaderPass.js","sha256":"e2500a5913b26bbf5148ceaae644c6edcff06a18b01494ee37bf856353d2ab9d"},
+        {"path":"vendor/three/addons/postprocessing/UnrealBloomPass.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/postprocessing/UnrealBloomPass.js","sha256":"1158bb02f6467889aba19c1a788b9107054d7f6a558498b5e2152db5873bb859"},
+        {"path":"vendor/three/addons/shaders/CopyShader.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/shaders/CopyShader.js","sha256":"a33057d5ac91c43304c186ac0e8816e62bb2ed471d3a00ff3018dfd5c0389718"},
+        {"path":"vendor/three/addons/shaders/LuminosityHighPassShader.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/shaders/LuminosityHighPassShader.js","sha256":"5044f780b6e6cf863947f64c36fe1587132f7fbe395ada863cd1e5f0388dcf1e"},
+        {"path":"vendor/three/addons/shaders/OutputShader.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/shaders/OutputShader.js","sha256":"353479f77a8d7e2629d49ccac9fc2f5dbfdda5442e0adf867b00377a2fcb0cb2"},
+        {"path":"vendor/three/addons/utils/BufferGeometryUtils.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/utils/BufferGeometryUtils.js","sha256":"5c552223a9309883743b80538d6e9cdb45e3227f30d3ec56fb2c39b46e78d595"},
+        {"path":"vendor/three/addons/utils/SkeletonUtils.js","url":"https://unpkg.com/three@0.185.1/examples/jsm/utils/SkeletonUtils.js","sha256":"b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"}
+      ]
+    },
+    "rapier3d-compat": {
+      "version": "0.19.3",
+      "license": "Apache-2.0",
+      "source": "https://registry.npmjs.org/@dimforge/rapier3d-compat/-/rapier3d-compat-0.19.3.tgz",
+      "modified": false,
+      "notes": "Official no-bundler ESM compatibility build. The module embeds an identical WASM payload; the original standalone WASM is retained for provenance and verification.",
+      "files": [
+        {"path":"vendor/rapier/rapier.es.js","url":"https://unpkg.com/@dimforge/rapier3d-compat@0.19.3/rapier.mjs","sha256":"bce2c762b440101ebf8cbff038a71fe1884488becd0a53b9a7c0a7e3daf13a2b"},
+        {"path":"vendor/rapier/rapier_wasm3d_bg.wasm","url":"https://unpkg.com/@dimforge/rapier3d-compat@0.19.3/rapier_wasm3d_bg.wasm","sha256":"1ce1c8c4036b4dcd3bde86c6efdb0f270cf5e274979b1de6ab8052947ef166c5"}
+      ]
+    }
+  }
+}

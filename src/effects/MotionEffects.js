@@ -1,0 +1,2 @@
+// @ts-check
+export class MotionEffects { /** @param {import('three').PerspectiveCamera} camera @param {import('../core/Settings.js').Settings} settings */ constructor(camera,settings){this.camera=camera;this.settings=settings;this.targetFov=72;}update(dt,speed=0){this.targetFov=72+Math.min(10,Math.max(0,speed-5)*.9);if(this.settings.get('reducedCameraMotion'))this.targetFov=72;this.camera.fov+=(this.targetFov-this.camera.fov)*Math.min(1,dt*4);this.camera.updateProjectionMatrix();} }

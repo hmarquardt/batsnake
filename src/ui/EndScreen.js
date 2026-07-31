@@ -1,0 +1,6 @@
+// @ts-check
+export class EndScreen {
+  /** @param {HTMLElement} root @param {{restart:()=>void,menu:()=>void}} actions */ constructor(root,actions){this.element=document.createElement('section');this.element.className='end-card hidden';this.element.innerHTML=`<div class="end-sheet"><p class="outcome" data-field="outcome"></p><h2 data-field="title"></h2><p data-field="description"></p><div class="score-grid" data-field="stats"></div><div class="end-actions"><button data-action="restart">Run again</button><button data-action="menu">Return to field notes</button></div></div>`;root.append(this.element);this.element.querySelector('[data-action=restart]')?.addEventListener('click',actions.restart);this.element.querySelector('[data-action=menu]')?.addEventListener('click',actions.menu);}
+  show(result){for(const field of ['outcome','title','description']){const node=this.element.querySelector(`[data-field=${field}]`);if(node)node.textContent=result[field];}const stats=this.element.querySelector('[data-field=stats]');if(stats)stats.innerHTML=result.stats.map((stat)=>`<div><strong>${stat.value}</strong><span>${stat.label}</span></div>`).join('');this.element.classList.remove('hidden');}
+  hide(){this.element.classList.add('hidden');}
+}

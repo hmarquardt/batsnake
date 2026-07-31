@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#060908">
+  <meta name="description" content="Batsnake — a first-person cave ecology survival game.">
+  <title>BATSNAKE</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/game.css">
+  <link rel="stylesheet" href="./css/menu.css">
+  <link rel="stylesheet" href="./css/hud.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three/three.module.js",
+      "three/addons/": "./vendor/three/addons/",
+      "@dimforge/rapier3d": "./vendor/rapier/rapier.es.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <main id="app" aria-label="Batsnake game">
+    <canvas id="game-canvas" aria-label="First-person cave view"></canvas>
+    <div id="cinema-bars" aria-hidden="true"></div>
+    <section id="loading" class="overlay loading" aria-live="polite">
+      <div class="brand-mark" aria-hidden="true"><span></span></div>
+      <p class="eyebrow">SIERRA DE LOS ÓRGANOS · 02:13</p>
+      <h1>BATSNAKE</h1>
+      <p id="loading-status">Entering the cave…</p>
+      <div class="load-track"><i id="load-progress"></i></div>
+    </section>
+    <section id="fatal-error" class="overlay fatal hidden" role="alert">
+      <p class="eyebrow">FIELD EQUIPMENT FAILURE</p>
+      <h2>The cave could not be entered</h2>
+      <p id="fatal-message"></p>
+      <pre id="fatal-command" class="hidden">python3 -m http.server 8080</pre>
+    </section>
+    <div id="ui-root"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <div id="performance" class="performance hidden"></div>
+  </main>
+  <noscript><div class="noscript">Batsnake requires JavaScript and WebGL2.</div></noscript>
+  <script>
+    if (location.protocol === 'file:') {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('fatal-error').classList.remove('hidden');
+      document.getElementById('fatal-message').textContent = 'Browsers block game modules and local WASM when opened as a file. Serve this folder, then visit http://localhost:8080.';
+      document.getElementById('fatal-command').classList.remove('hidden');
+    }
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

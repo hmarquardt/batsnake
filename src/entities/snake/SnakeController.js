@@ -1,0 +1,11 @@
+// @ts-check
+import * as THREE from 'three';
+import { SnakeStrike } from './SnakeStrike.js';
+export class SnakeController {
+  /** @param {THREE.Vector3} anchor @param {import('../../core/EventBus.js').EventBus} events */ constructor(anchor,events){this.anchor=anchor.clone();this.events=events;this.yaw=0;this.pitch=-.08;this.offset=0;this.extension=0;this.strike=new SnakeStrike();this.headPosition=anchor.clone().add(new THREE.Vector3(0,-3,0));this.direction=new THREE.Vector3(0,-.08,1).normalize();this.awareness=0;}
+  /** @param {number} dt @param {import('../../core/InputManager.js').InputManager} input @param {import('../../core/Settings.js').Settings} settings */
+  playerUpdate(dt,input,settings){const mouse=input.consumeMouse(),s=settings.get('mouseSensitivity')*.0011;this.yaw=THREE.MathUtils.clamp(this.yaw-mouse.x*s,-1.05,1.05);this.pitch=THREE.MathUtils.clamp(this.pitch-mouse.y*s,-.62,.48);this.offset=THREE.MathUtils.clamp(this.offset+(Number(input.down('KeyD'))-Number(input.down('KeyA')))*dt*1.4,-1.8,1.8);this.extension=THREE.MathUtils.clamp(this.extension+(Number(input.down('KeyW'))-Number(input.down('KeyS')))*dt*1.2,-.5,1.4);this.updateDirection();if(input.mouse.down)this.strike.prepare(dt);if(input.mouse.released){if(this.strike.release(this.headPosition,this.direction))this.events.emit('snake-strike-started',{controller:this});else this.strike.cancel();}this.advance(dt);}
+  /** @param {number} dt */ advance(dt){const state=this.strike.update(dt);if(state==='lunge'||state==='recover'||state==='capture')this.headPosition.copy(this.strike.position);else this.headPosition.copy(this.anchor).add(new THREE.Vector3(this.offset,-3-this.extension,0)).addScaledVector(this.direction,.35);this.awareness=Math.max(0,this.awareness-dt*.16);}
+  updateDirection(){this.direction.set(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch)).normalize();}
+  /** @param {THREE.Vector3} target @param {number} dt */ aiUpdate(target,dt){const local=target.clone().sub(this.headPosition).normalize();const targetYaw=Math.atan2(local.x,local.z),targetPitch=Math.asin(THREE.MathUtils.clamp(local.y,-1,1));this.yaw+=THREE.MathUtils.clamp(targetYaw-this.yaw,-dt*.75,dt*.75);this.pitch+=THREE.MathUtils.clamp(targetPitch-this.pitch,-dt*.6,dt*.6);this.updateDirection();this.advance(dt);}
+}

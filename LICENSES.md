@@ -1,0 +1,22 @@
+# Third-party and asset licenses
+
+## Runtime dependencies
+
+| Component | Version | License | Source | Attribution / use |
+|---|---:|---|---|---|
+| Three.js | 0.185.1 | MIT | <https://github.com/mrdoob/three.js/tree/r185> and exact files recorded in `vendor-lock.json` | Copyright © 2010–2026 three.js authors. Commercial use and modification permitted; retain MIT notice. |
+| Rapier JavaScript compatibility build | 0.19.3 | Apache-2.0 | <https://github.com/dimforge/rapier.js/tree/v0.19.3> and exact files recorded in `vendor-lock.json` | Copyright Dimforge GmbH and contributors. Commercial use and modification permitted under Apache-2.0; retain license/notice and mark modifications. Vendored bytes are unmodified. |
+
+The repository vendors the official Three.js core plus only imported loaders, utilities, post-processing passes, and shaders. Rapier’s official compatibility ESM embeds its WASM payload for direct-browser loading; the corresponding official standalone WASM is retained and checksummed for provenance. See `vendor-lock.json` for exact source URLs, paths, retrieval date, modification flags, and SHA-256 values.
+
+Full dependency license texts are available at the sources above and are required in distributions. The project `LICENSE` governs original Batsnake code only and does not replace dependency terms.
+
+## Current runtime assets
+
+All current cave geometry, creature placeholder geometry, shaders, particle systems, UI graphics, favicon, materials, animation behavior, and procedural audio are original project-created assets in this repository. They contain no third-party texture, model, HDR, font, or recorded-audio bytes. System fonts are referenced but not redistributed. Under the repository MIT license, commercial use and modification are permitted with the stated notice.
+
+The empty `assets/` category directories are replacement slots, not licensed asset claims. Do not add a file with unknown authorship or license. Production candidates remain “license pending” in `docs/ASSET_MANIFEST.md` and are not included.
+
+## Attribution checklist for future assets
+
+For each added file, record: asset name, author/owner, exact source URL, exact license/version, retrieval date, local path, required attribution wording, commercial-use permission, modification permission, redistribution constraints, and whether the local file was modified. Preserve a copy of license/notice text when required. Share-alike or non-commercial material requires explicit project approval before inclusion.

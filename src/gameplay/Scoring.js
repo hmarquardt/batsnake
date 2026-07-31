@@ -1,0 +1,2 @@
+// @ts-check
+export class Scoring { constructor(){this.score=0;this.started=performance.now();this.pulses=0;this.collisions=0;this.nearMisses=0;this.captures=0;this.snakesAvoided=0;}elapsed(){return(performance.now()-this.started)/1000;}batScore(distance){return Math.max(0,Math.round(distance*12+this.snakesAvoided*450+this.nearMisses*120-this.pulses*18-this.collisions*90));}snakeScore(){return Math.round(this.captures*1250+Math.max(0,300-this.elapsed()*2));} }

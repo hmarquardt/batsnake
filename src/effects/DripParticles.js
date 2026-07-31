@@ -1,0 +1,3 @@
+// @ts-check
+import * as THREE from 'three';
+export class DripParticles { /** @param {THREE.Scene} scene */ constructor(scene){const g=new THREE.BufferGeometry();this.data=new Float32Array(36);for(let i=0;i<12;i++){this.data[i*3]=(Math.random()-.5)*17;this.data[i*3+1]=Math.random()*22-7;this.data[i*3+2]=Math.random()*80-40;}g.setAttribute('position',new THREE.BufferAttribute(this.data,3));this.points=new THREE.Points(g,new THREE.PointsMaterial({color:0x93b7ad,size:.07,transparent:true,opacity:.45}));scene.add(this.points);}update(dt){for(let i=0;i<12;i++){this.data[i*3+1]-=dt*(3+i%3);if(this.data[i*3+1]<-8)this.data[i*3+1]=15;}this.points.geometry.attributes.position.needsUpdate=true;} }
