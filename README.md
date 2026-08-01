@@ -14,6 +14,8 @@ python3 -m http.server 8080
 
 Open <http://localhost:8080>. Use a current desktop Chrome, Edge, Firefox, or Safari with WebGL2, ES modules, WebAssembly, pointer lock, and Web Audio enabled. Headphones are recommended. Opening `index.html` through `file://` is intentionally intercepted with startup instructions because browsers block module and WASM loading there.
 
+Choose **Gameplay** on the main menu for a persistent, compact Bat and Snake reference. The same reference remains available from the pause menu after contextual guidance has been dismissed.
+
 ### Bat controls
 
 | Input | Action |
@@ -27,7 +29,7 @@ Open <http://localhost:8080>. Use a current desktop Chrome, Edge, Firefox, or Sa
 | Escape | Pause |
 | R | Restart run |
 
-Reach the moonlit mouth. The flight model includes momentum, drag, lift, gravity, diving, soft stall, speed-dependent turning, collision response, banked camera motion, and flap cadence. Score rewards progress, survival, and clean flight while penalizing collisions and unnecessary calls.
+Reach the moonlit mouth. The flight model includes momentum, drag, lift, gravity, diving, soft stall, speed-dependent turning, collision response, banked camera motion, and flap cadence. A centered soft launch preserves airborne momentum while providing a six-second learning envelope before boa pressure begins. Score rewards progress, survival, and clean flight while penalizing collisions and unnecessary calls.
 
 ### Snake controls
 
@@ -120,6 +122,10 @@ Milestone 2 frames may remain locally beside this set. Do not commit large PNGs 
 ## GitHub Pages
 
 The application uses only repository-relative URLs and needs no rewrite rules. In repository **Settings → Pages**, choose **Deploy from a branch**, select the desired branch and `/ (root)`, then save. `index.html` is the entry point. A project site such as `https://name.github.io/batsnake/` works because import-map and asset paths are relative.
+
+## Release validation
+
+The first-run Bat movement, event identity, persistent Gameplay reference, and requested steer/flap/call/brake flow are recorded in [docs/RELEASE_TEST_MATRIX.md](docs/RELEASE_TEST_MATRIX.md).
 
 ## Known limitations
 

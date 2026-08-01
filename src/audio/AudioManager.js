@@ -17,7 +17,7 @@ export class AudioManager {
   strike(position){this.whoosh(position,1300,2.2,.22,.1);this.tone(position,145,.18,'sawtooth',.1,'creatures',90);}
   strikeMiss(position,reason){if(reason==='obstruction'){this.impact(position);this.whoosh(position,300,1,.3,.05,'creatures',.12);}else if(reason==='overreach'){this.tone(position,150,.34,'sine',.05,'creatures',64);}else{this.whoosh(position,950,1.4,.2,.045);}this.whoosh(position,420,.8,.42,.028,'creatures',.32);}
   capture(position){this.tone(position,118,.45,'triangle',.16,'creatures');this.tone(position,54,.6,'sine',.12,'creatures');this.whoosh(position,2400,1.6,.28,.05,'creatures',.05);this.whoosh(position,380,.9,.5,.03,'creatures',.4);}
-  impact(position){this.tone(position,76,.24,'square',.08,'effects');this.whoosh(position,500,1.2,.16,.05,'effects');}
+  impact(position){this.tone(position,62,.16,'triangle',.055,'effects',44);this.whoosh(position,220,.7,.13,.035,'effects');}
   /** Close boa breath: a slow cold exhale when the player bat is near a post. */
   breath(position){const now=performance.now();if(now-this.lastBreath<2100)return;this.lastBreath=now;this.whoosh(position,210,.7,1.5,.03);}
   /** Muscle tension while a strike charges; call at most ~8 Hz with the current charge. */

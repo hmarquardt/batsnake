@@ -4,6 +4,8 @@ This file tracks the first playable vertical slice. The checked items are verifi
 
 ## Milestone 4: Creature Fidelity and Presentation
 
+- [x] Resolve first-run release blockers with a persistent Gameplay reference, centered soft launch, six-second safe envelope, and non-acoustic collision presentation.
+- [x] Record the cleared-storage three-second Bat acceptance flow and collision/sensory identity audit in `RELEASE_TEST_MATRIX.md`.
 - [x] Create the concise visual review and prioritize production bat, cave readability, boa/contact, sensory, and audio/tactile slices.
 - [x] Replace the bat pilot with a deterministic skinned production GLB, six blended clips, regional heat/echo metadata, peripheral first-person placement, and complete procedural fallback.
 - [x] Improve the procedural boa head, body, coils, preparation, lunge/contact/capture, reason-specific recovery, first-person anatomy, and visual identity without changing strike gameplay.

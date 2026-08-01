@@ -1,7 +1,8 @@
 // @ts-check
 import * as THREE from 'three';
 
-export const BAT_START = new THREE.Vector3(1, 3, -45);
+// A centered pocket at the chamber's rear provides a clear first sightline before the shelf and Narrows.
+export const BAT_START = new THREE.Vector3(-1.2, 3.4, -49.5);
 export const ENTRANCE = new THREE.Vector3(0, 7, 50);
 export const SNAKE_ANCHORS = Object.freeze([
   { position: new THREE.Vector3(-4.8,11.8,-25), label:'The Narrows', range:11 },

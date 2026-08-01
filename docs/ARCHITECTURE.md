@@ -18,6 +18,8 @@ Rapier holds deliberately simple static chamber volumes. Player flight uses a ma
 
 `InputManager` owns keyboard, pointer button edges, accumulated pointer-lock deltas, and lock errors. Modes consume semantic state directly; no controller attaches its own browser listeners. Pointer-lock loss pauses a live run. The canvas can request lock again after denial. `Escape` and `R` are application actions; creature controls remain mode-local.
 
+`GameplayMenu` is a persistent UI reference built from those implemented bindings, reachable from both menu and pause states. It owns modal focus/return focus but never changes game phase; opening it over pause leaves the run paused. Contextual onboarding remains optional and transient.
+
 ## Entity boundaries
 
 `BatPlayer` composes `BatFlightController` and `BatCamera`. The controller owns motion state, not the camera. `BatFlock` owns `BatAgent` simulation data and four instanced render batches: normal bodies/wings and thermal bodies/membranes. This makes a future GLB renderer replaceable without rewriting ecology logic.
@@ -73,3 +75,5 @@ The overlay adds seed, phase, route occupancy, panic count, average snake alertn
 Quality profiles now share a fixed simulated flock count at the former medium boundary. Quality-dependent state is restricted to renderer resolution, shadows/bloom, particles, echo histories/returns/detail, and thermal trail budgets. A paused-loop same-seed construction test verifies exact low/medium/high state equality in both modes.
 
 Audio and haptic responses subscribe to physical events. Delayed reflection timers and ambience modulation are bounded and disposed; Gamepad vibration is guarded, optional, and attenuated by reduced-sensory settings. No presentation feature creates a runtime network request.
+
+The Bat soft launch remains inside `BatFlightController` and `BatMode`: a lower initial velocity plus four seconds of tapering lift retains flight momentum, while a six-second empty target list prevents introductory AI strike pressure. Collision still resolves through the shared spatial service. Its event now produces local dust and dull contact audio; only `EcholocationSystem.emit()` can create the player acoustic pulse and memory.

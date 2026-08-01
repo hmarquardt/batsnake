@@ -8,7 +8,7 @@ Neither mode is a conventional first-person shooter. The bat cannot hover or str
 
 ## Bat run
 
-The bat begins in the deep roost at the back of a departure stream. Forward momentum is persistent. Flaps add thrust and lift on a cadence and spend a regenerating reserve; gliding trades altitude for efficient motion; a dive produces the fastest run; spread wings brake and increase lift; climbing spends momentum; low speed creates a soft stall. Mouse steering rolls the view and receives more authority at useful airspeed.
+The bat begins in a centered deep-roost pocket at the back of a departure stream. Forward momentum is persistent. The opening glide starts at 5.5 m/s with lift assistance that tapers away over four seconds; boa pressure begins after six seconds. This keeps the animal airborne while giving a first-run player room to steer, flap, call, and brake before the first column. Flaps add thrust and lift on a cadence and spend a regenerating reserve; gliding trades altitude for efficient motion; a dive produces the fastest run; spread wings brake and increase lift; climbing spends momentum; low speed creates a soft stall. Mouse steering rolls the view and receives more authority at useful airspeed.
 
 The composed route passes the hanging shelf, the Narrows snake, a central occluding column, the Column snake, a second column/alternate lane, and the Moon Run snake before the entrance. The moonlit mouth is always the strategic direction, but columns and changing corridor center prevent a straight safe line.
 
@@ -49,3 +49,5 @@ Field Study, Night Flight, and Flight Line change animal reaction, panic, traffi
 Milestone 4 adds no new strategic system. Bat clips, boa deformation, cave landmarks, sensory response, audio, camera impulses, and vibration consume outcomes already produced by Milestone 3. Strike travel, swept capture radii, route choice, awareness, scoring, and objectives remain authoritative and unchanged.
 
 Quality is cosmetic: every profile constructs the same role, route, position, departure, snake, and memory state for a seed. Low reduces resolution and presentation persistence but retains quick/deep echo, live regional heat, focus motion evidence, all ambushes, and the complete flock. Reduced-sensory options alter feedback intensity only.
+
+The persistent Gameplay panel supplements contextual prompts rather than replacing them. Cave collision uses local stone dust, dull impact audio, speed loss, and wing/camera disturbance. It never emits an echo event or activates acoustic memory; intentional quick/deep calls retain exclusive ownership of the spatial pulse language.
