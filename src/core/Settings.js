@@ -19,10 +19,11 @@
  * @property {number} gamepadSensitivity
  * @property {boolean} invertY
  * @property {boolean} heroBatModel
+ * @property {boolean} haptics
  */
 
 /** @type {GameSettings} */
-const DEFAULTS = { quality: 'medium', resolutionScale: 1, mouseSensitivity: 0.75, masterVolume: 0.8, effectsVolume: 0.85, ambienceVolume: 0.65, reducedCameraMotion: false, reducedFlashing: false, sensoryIntensity: 0.85, showPerformanceOverlay: false, difficulty:'night', onboarding:true, gamepadEnabled:true, gamepadDeadzone:.18, gamepadSensitivity:.75, invertY:false, heroBatModel:true };
+const DEFAULTS = { quality: 'medium', resolutionScale: 1, mouseSensitivity: 0.75, masterVolume: 0.8, effectsVolume: 0.85, ambienceVolume: 0.65, reducedCameraMotion: false, reducedFlashing: false, sensoryIntensity: 0.85, showPerformanceOverlay: false, difficulty:'night', onboarding:true, gamepadEnabled:true, gamepadDeadzone:.18, gamepadSensitivity:.75, invertY:false, heroBatModel:true, haptics:true };
 const ENUMS={quality:['low','medium','high'],difficulty:['field','night','flightline']};
 const RANGES={resolutionScale:[.5,1.25],mouseSensitivity:[.15,1.5],masterVolume:[0,1],effectsVolume:[0,1],ambienceVolume:[0,1],sensoryIntensity:[.25,1],gamepadDeadzone:[.05,.45],gamepadSensitivity:[.2,1.5]};
 function sanitized(stored){const values={...DEFAULTS};for(const key of Object.keys(DEFAULTS)){const value=stored?.[key];if(key in ENUMS){if(ENUMS[key].includes(value))values[key]=value;continue;}if(key in RANGES){if(Number.isFinite(value)){const [min,max]=RANGES[key];values[key]=Math.max(min,Math.min(max,value));}continue;}if(typeof value===typeof DEFAULTS[key])values[key]=value;}return values;}
@@ -42,9 +43,9 @@ export class Settings {
   /** @returns {{pixelRatio:number, particles:number, bats:number, shadows:boolean, bloom:boolean,echoHistories:number,echoMemory:number,echoReturns:number,echoSurfaceDetail:number,thermalTrails:number,thermalTrailLife:number}} */
   profile() {
     const profiles = {
-      low: { pixelRatio: 0.7, particles: 90, bats: 22, shadows: false, bloom: false, echoHistories:1, echoMemory:.8, echoReturns:4, echoSurfaceDetail:.18, thermalTrails:12, thermalTrailLife:.26 },
+      low: { pixelRatio: 0.7, particles: 90, bats: 34, shadows: false, bloom: false, echoHistories:1, echoMemory:.8, echoReturns:4, echoSurfaceDetail:.18, thermalTrails:12, thermalTrailLife:.26 },
       medium: { pixelRatio: 1, particles: 180, bats: 34, shadows: true, bloom: true, echoHistories:2, echoMemory:1.55, echoReturns:10, echoSurfaceDetail:.68, thermalTrails:48, thermalTrailLife:.42 },
-      high: { pixelRatio: 1.25, particles: 300, bats: 48, shadows: true, bloom: true, echoHistories:3, echoMemory:2.35, echoReturns:18, echoSurfaceDetail:1, thermalTrails:112, thermalTrailLife:.62 },
+      high: { pixelRatio: 1.25, particles: 300, bats: 34, shadows: true, bloom: true, echoHistories:3, echoMemory:2.35, echoReturns:18, echoSurfaceDetail:1, thermalTrails:112, thermalTrailLife:.62 },
     };
     return profiles[this.values.quality];
   }

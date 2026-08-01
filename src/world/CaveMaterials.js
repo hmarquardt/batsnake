@@ -14,7 +14,7 @@ function limestoneTexture(size = 128, roughness = false) {
       const broad = Math.sin(x * .09) * .13 + Math.sin((x + y) * .045) * .1;
       const pores = seededNoise(x >> 1, y >> 1) * .42 + seededNoise(x, y) * .18;
       const streak = Math.pow(Math.max(0, Math.sin(x * .055 + seededNoise(y, 4) * 2)), 7) * .24;
-      const value = THREE.MathUtils.clamp((roughness ? .67 : .31) + broad + pores * .22 - streak, .08, .94);
+      const value = THREE.MathUtils.clamp((roughness ? .72 : .31) + broad + pores * .22 - streak, .08, .94);
       const index = (y * size + x) * channels;
       if (roughness) data[index] = data[index + 1] = data[index + 2] = Math.round(value * 255);
       else {
@@ -36,17 +36,58 @@ function limestoneTexture(size = 128, roughness = false) {
   return texture;
 }
 
+/** Soft radial blot texture used by guano beds and roost residue (project-created, deterministic). */
+function blotchTexture(size = 64) {
+  const data = new Uint8Array(size * size * 4);
+  for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
+    const dx = (x / size - .5) * 2, dy = (y / size - .5) * 2;
+    const d = Math.hypot(dx, dy);
+    const ragged = .68 + seededNoise(x >> 2, y >> 2) * .3 + seededNoise(x, y) * .12;
+    const alpha = THREE.MathUtils.clamp((1 - d * ragged * 1.35), 0, 1);
+    const index = (y * size + x) * 4;
+    data[index] = data[index + 1] = data[index + 2] = 255;
+    data[index + 3] = Math.round(Math.pow(alpha, 1.6) * 235);
+  }
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+  texture.needsUpdate = true;
+  return texture;
+}
+
+/** Dark torn-leaf alpha silhouette for entrance vegetation clusters (project-created). */
+function leafTexture(size = 64) {
+  const data = new Uint8Array(size * size * 4);
+  for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
+    const u = x / size, v = y / size;
+    const blade = Math.abs(u - .5) < (.5 - v) * .3 * (0.55 + seededNoise(y >> 1, 3) * .7);
+    const tear = seededNoise(x >> 2, y) > .24;
+    const index = (y * size + x) * 4;
+    data[index] = data[index + 1] = data[index + 2] = 255;
+    data[index + 3] = blade && tear ? Math.round(200 + seededNoise(x, y) * 55) : 0;
+  }
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+  texture.needsUpdate = true;
+  return texture;
+}
+
 export class CaveMaterials {
   constructor() {
     this.limestoneMap = limestoneTexture();
     this.roughnessMap = limestoneTexture(128, true);
-    this.rock = new THREE.MeshStandardMaterial({ color: 0x59645d, map: this.limestoneMap, bumpMap: this.roughnessMap, bumpScale: .18, roughness: .86, roughnessMap: this.roughnessMap, metalness: 0.01, side: THREE.BackSide, vertexColors: true });
-    this.formation = new THREE.MeshStandardMaterial({ color: 0x58625b, map: this.limestoneMap, bumpMap: this.roughnessMap, bumpScale: .15, roughness: 0.78, roughnessMap: this.roughnessMap, metalness: 0.02 });
-    this.wet = new THREE.MeshPhysicalMaterial({ color: 0x45544d, map: this.limestoneMap, bumpMap: this.roughnessMap, bumpScale: .11, roughness: 0.3, roughnessMap: this.roughnessMap, metalness: 0.02, clearcoat: 0.4, clearcoatRoughness: 0.25 });
-    this.guano = new THREE.MeshStandardMaterial({ color: 0x241c14, roughness: 1 });
+    this.blotchMap = blotchTexture();
+    this.leafMap = leafTexture();
+    // Formations share the limestone family but tile it at a larger scale so small meshes do not hatch.
+    this.formationMap = limestoneTexture(); this.formationMap.repeat.set(2.4, 3.2);
+    this.formationRoughness = limestoneTexture(128, true); this.formationRoughness.repeat.set(2.4, 3.2);
+    this.rock = new THREE.MeshStandardMaterial({ color: 0x59645d, map: this.limestoneMap, bumpMap: this.roughnessMap, bumpScale: .18, roughness: .9, roughnessMap: this.roughnessMap, metalness: 0.01, side: THREE.BackSide, vertexColors: true });
+    this.formation = new THREE.MeshStandardMaterial({ color: 0x58625b, map: this.formationMap, bumpMap: this.formationRoughness, bumpScale: .15, roughness: 0.86, roughnessMap: this.formationRoughness, metalness: 0.02 });
+    this.wet = new THREE.MeshPhysicalMaterial({ color: 0x35423c, map: this.formationMap, bumpMap: this.formationRoughness, bumpScale: .11, roughness: 0.6, roughnessMap: this.formationRoughness, metalness: 0.02, clearcoat: 0.16, clearcoatRoughness: 0.5 });
+    this.guano = new THREE.MeshStandardMaterial({ color: 0x241c14, roughness: 1, transparent: true, alphaMap: this.blotchMap, depthWrite: false });
     this.mineral = new THREE.MeshBasicMaterial({color:0xa5aa94,transparent:true,opacity:.12,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
-    this.normalColors={rock:new THREE.Color(0x59645d),formation:new THREE.Color(0x58625b),wet:new THREE.Color(0x45544d),mineral:new THREE.Color(0xa5aa94)};
+    this.iron = new THREE.MeshBasicMaterial({color:0x7d6b52,transparent:true,opacity:.1,depthWrite:false,side:THREE.DoubleSide});
+    this.vegetation = new THREE.MeshBasicMaterial({color:0x04080a,alphaMap:this.leafMap,transparent:true,side:THREE.DoubleSide,depthWrite:false});
+    this.normalColors={rock:new THREE.Color(0x59645d),formation:new THREE.Color(0x58625b),wet:new THREE.Color(0x35423c),mineral:new THREE.Color(0xa5aa94)};
     this.thermalColors={rock:new THREE.Color(0x080a09),formation:new THREE.Color(0x090b0a),wet:new THREE.Color(0x111813),mineral:new THREE.Color(0x23322b)};
+    this.normalVegetation=new THREE.Color(0x04080a);this.thermalVegetation=new THREE.Color(0x010202);
 
     this.echoUniforms = {
       pulseOrigins: { value: Array.from({ length: 3 }, () => new THREE.Vector3(0, -999, 0)) },
@@ -57,6 +98,7 @@ export class CaveMaterials {
       memoryDecay: { value: 1.7 },
       pulseIntensity: { value: 0 },
       surfaceDetail: { value: .75 },
+      geometryFill: { value: .5 },
     };
     this.echo = new THREE.ShaderMaterial({
       uniforms: this.echoUniforms,
@@ -65,17 +107,22 @@ export class CaveMaterials {
       depthTest: true,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
+      polygonOffset: true,
+      polygonOffsetFactor: -4,
+      polygonOffsetUnits: -4,
       vertexShader: `
         varying vec3 vWorld;
         varying vec3 vNormalW;
         void main(){
           vec4 localPosition=vec4(position,1.0);
+          vec3 localNormal=normal;
           #ifdef USE_INSTANCING
             localPosition=instanceMatrix*localPosition;
+            localNormal=mat3(instanceMatrix)*localNormal;
           #endif
           vec4 worldPosition=modelMatrix*localPosition;
           vWorld=worldPosition.xyz;
-          vNormalW=normalize(mat3(modelMatrix)*normal);
+          vNormalW=normalize(mat3(modelMatrix)*localNormal);
           gl_Position=projectionMatrix*viewMatrix*worldPosition;
         }`,
       fragmentShader: `
@@ -89,7 +136,14 @@ export class CaveMaterials {
         uniform float surfaceDetail;
         varying vec3 vWorld;
         varying vec3 vNormalW;
-        float hash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
+        uniform float geometryFill;
+        float vhash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
+        float vnoise(vec3 p){
+          vec3 i=floor(p);vec3 f=fract(p);f=f*f*(3.0-2.0*f);
+          float a=vhash(i);float b=vhash(i+vec3(1.,0.,0.));float c=vhash(i+vec3(0.,1.,0.));float d=vhash(i+vec3(1.,1.,0.));
+          float e=vhash(i+vec3(0.,0.,1.));float g=vhash(i+vec3(1.,0.,1.));float h=vhash(i+vec3(0.,1.,1.));float k=vhash(i+vec3(1.,1.,1.));
+          return mix(mix(mix(a,b,f.x),mix(c,d,f.x),f.y),mix(mix(e,g,f.x),mix(h,k,f.x),f.y),f.z);
+        }
         void main(){
           float direct=0.0;
           float memory=0.0;
@@ -98,25 +152,24 @@ export class CaveMaterials {
             float age=pulseAges[i];
             float distanceFromCall=distance(vWorld,pulseOrigins[i]);
             float radius=min(pulseRange,max(0.0,age)*waveSpeed);
-            float front=1.0-smoothstep(.15,1.45+distanceFromCall*.018,abs(distanceFromCall-radius));
+            float front=1.0-smoothstep(.2,2.3+distanceFromCall*.03,abs(distanceFromCall-radius));
             float sinceArrival=age-distanceFromCall/waveSpeed;
             float arrived=step(0.0,sinceArrival)*step(distanceFromCall,pulseRange);
-            float uneven=.54+.46*hash(floor(vWorld*1.7)+float(i)*13.0);
-            direct=max(direct,front*step(0.0,age));
+          float uneven=.68+.32*vnoise(vWorld*.5+float(i)*7.3);
+            direct=max(direct,front*step(0.0,age)*(.5+.5*uneven));
             memory=max(memory,arrived*exp(-sinceArrival/max(.35,memoryDecay))*uneven);
           }
           vec3 viewDirection=normalize(cameraPosition-vWorld);
-          float silhouette=pow(1.0-abs(dot(viewDirection,normalize(vNormalW))),2.3);
-          float ridgeA=abs(sin(vWorld.y*2.7+vWorld.z*.73));
-          float ridgeB=abs(sin(vWorld.x*3.3-vWorld.z*.41));
-          float ridges=1.0-smoothstep(.03,.24,min(ridgeA,ridgeB));
-          float response=direct*(.58+silhouette*.74+ridges*.45*surfaceDetail)+memory*(.18+silhouette*.42+ridges*.32*surfaceDetail);
+          float silhouette=pow(1.0-abs(dot(viewDirection,normalize(vNormalW))),2.1);
+          float grain=vnoise(vWorld*2.4);
+          float fill=mix(.08,.48,clamp(geometryFill,0.,1.));
+          float response=direct*(fill+silhouette*.42+grain*.14*surfaceDetail)+memory*(fill*.3+silhouette*.24+grain*.1*surfaceDetail);
           response*=pulseIntensity;
-          if(response<.012)discard;
+          if(response<.00035)discard;
           vec3 memoryColor=vec3(.055,.24,.23);
-          vec3 frontColor=vec3(.48,1.0,.88);
+          vec3 frontColor=vec3(.32,.78,.68);
           vec3 color=mix(memoryColor,frontColor,clamp(direct*1.4,0.0,1.0));
-          gl_FragColor=vec4(color,response);
+          gl_FragColor=vec4(color,response*.68);
         }`,
     });
   }
@@ -127,5 +180,5 @@ export class CaveMaterials {
     this.echoUniforms.surfaceDetail.value = profile.echoSurfaceDetail;
   }
 
-  setThermalBlend(blend){this.rock.color.copy(this.normalColors.rock).lerp(this.thermalColors.rock,blend);this.formation.color.copy(this.normalColors.formation).lerp(this.thermalColors.formation,blend);this.wet.color.copy(this.normalColors.wet).lerp(this.thermalColors.wet,blend);this.mineral.color.copy(this.normalColors.mineral).lerp(this.thermalColors.mineral,blend);this.mineral.opacity=THREE.MathUtils.lerp(.12,.035,blend);}
+  setThermalBlend(blend){this.rock.color.copy(this.normalColors.rock).lerp(this.thermalColors.rock,blend);this.formation.color.copy(this.normalColors.formation).lerp(this.thermalColors.formation,blend);this.wet.color.copy(this.normalColors.wet).lerp(this.thermalColors.wet,blend);this.mineral.color.copy(this.normalColors.mineral).lerp(this.thermalColors.mineral,blend);this.mineral.opacity=THREE.MathUtils.lerp(.12,.035,blend);this.iron.opacity=THREE.MathUtils.lerp(.1,.02,blend);this.vegetation.color.copy(this.normalVegetation).lerp(this.thermalVegetation,blend);}
 }

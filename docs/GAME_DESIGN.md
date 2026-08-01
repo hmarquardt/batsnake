@@ -43,3 +43,9 @@ Bat tactical play now distinguishes quick calls from deep calls. Quick calls sol
 Snake tactical play adds narrow heat focus, posture-sensitive strike quality, post-switch adaptation, and group memory. Broad perception spots opportunity; focus improves a single motion line while sacrificing the periphery. Scores favor accurate intercepts, patient but active observation, pressured captures, and useful post selection rather than indefinite waiting.
 
 Field Study, Night Flight, and Flight Line change animal reaction, panic, traffic, route pressure, session pacing, recovery, target, and multiplier. Neither animal has health. Contextual prompts disappear when the player demonstrates an action and never require a separate tutorial chamber. See `ENCOUNTER_DESIGN.md` for parameters and determinism boundaries.
+
+## Milestone 4 readability boundary
+
+Milestone 4 adds no new strategic system. Bat clips, boa deformation, cave landmarks, sensory response, audio, camera impulses, and vibration consume outcomes already produced by Milestone 3. Strike travel, swept capture radii, route choice, awareness, scoring, and objectives remain authoritative and unchanged.
+
+Quality is cosmetic: every profile constructs the same role, route, position, departure, snake, and memory state for a seed. Low reduces resolution and presentation persistence but retains quick/deep echo, live regional heat, focus motion evidence, all ambushes, and the complete flock. Reduced-sensory options alter feedback intensity only.

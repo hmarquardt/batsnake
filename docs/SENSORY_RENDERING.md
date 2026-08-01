@@ -55,3 +55,11 @@ This is not an acoustic solver or calibrated thermography. Cave reflections are 
 Snake focus is an input to thermal presentation, not target selection. It raises local warm-body contrast and steadies head motion while dimming peripheral persistence; line-of-sight and depth testing remain unchanged. Activation, focus, switching afterimage, and deactivation share the existing adaptation state, so no transition reveals bodies through rock.
 
 Encounter rhythm now informs sensory audio mixing. Airflow and flock density rise independently of explicit calls, while quiet phases leave headroom for direct and reflected returns. Seed/profile/phase never alter rock truth: the same cave volumes, heat emitters, and echo responders remain spatially authoritative.
+
+## Milestone 4 refinement
+
+Echo surface response replaces fine periodic ridge emphasis with broad deterministic world-space noise, a per-geometry fill factor, and approximate transformed instance normals. Organic boa meshes retain a softer additive response and longer motion character. Quick/deep ranges, awareness cost, history limits, and reflector selection are unchanged. No echo render target was added. A dark traveling band can still be visible when a front crosses nearby faceted tunnel geometry; this is documented rather than hidden with a full-screen flash.
+
+Thermal focus now changes motion evidence: samples near the aim cone persist longer and become clearer while peripheral trails recede. Bat head, torso, paired flight-muscle roots, and membranes remain separate emitters; boa head and body remain distinct. Cave materials, entrance vegetation, lights, and fog blend toward cool depth without disabling occlusion. Pools remain fixed at 12/48/112 samples and low retains all live heat information.
+
+At the 1920×1080 Apple M2 profile, thermal update p95 was 0.1 ms in each quality. Echo uses existing geometry/history pools and added no render target. See `PERFORMANCE.md` for the full matrix and remaining measurement limitations.

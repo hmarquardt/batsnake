@@ -12,6 +12,7 @@
  * @property {boolean} stalled
  * @property {number} panic
  * @property {number} collision
+ * @property {boolean} captured
  */
 
 /**

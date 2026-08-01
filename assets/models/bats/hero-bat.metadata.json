@@ -1,0 +1,119 @@
+{
+  "assetId": "hero-bat",
+  "path": "./assets/models/bats/hero-bat.glb",
+  "license": "Project-created MIT asset (tools/create-hero-bat-glb.py)",
+  "expectedScale": 0.56,
+  "maxBytes": 75000,
+  "maxTriangles": 900,
+  "maxBones": 15,
+  "maxMaterials": 3,
+  "maxTextures": 0,
+  "forwardAxis": "+Z",
+  "upAxis": "+Y",
+  "nodes": {
+    "root": "HeroBat",
+    "body": "BatMesh",
+    "spine": "Spine",
+    "head": "Head",
+    "leftWing": "Arm_L",
+    "rightWing": "Arm_R",
+    "leftMembrane": "Finger2_L",
+    "rightMembrane": "Finger2_R",
+    "mouth": "Mouth",
+    "capture": "CapturePoint"
+  },
+  "animations": {
+    "flap": "flap",
+    "glide": "glide",
+    "brake": "brake",
+    "dive": "dive",
+    "panic": "panic",
+    "captured": "captured"
+  },
+  "heatRegions": [
+    {
+      "node": "Spine",
+      "kind": "torso",
+      "temperature": 0.95,
+      "size": 0.075
+    },
+    {
+      "node": "Head",
+      "kind": "head",
+      "temperature": 1,
+      "size": 0.05
+    },
+    {
+      "node": "Arm_L",
+      "kind": "wingRoot",
+      "temperature": 0.84,
+      "size": 0.045
+    },
+    {
+      "node": "Arm_R",
+      "kind": "wingRoot",
+      "temperature": 0.84,
+      "size": 0.045
+    },
+    {
+      "node": "Finger2_L",
+      "kind": "membrane",
+      "temperature": 0.5,
+      "size": 0.09
+    },
+    {
+      "node": "Finger2_R",
+      "kind": "membrane",
+      "temperature": 0.5,
+      "size": 0.09
+    }
+  ],
+  "echoRegions": [
+    "HeroBat"
+  ],
+  "attachments": {
+    "camera": "Head",
+    "capture": "CapturePoint",
+    "mouth": "Mouth"
+  },
+  "lod": [
+    {
+      "role": "flock",
+      "representation": "BatFlock instanced procedural silhouette",
+      "reason": "One bounded renderer preserves deterministic ecology without per-bat mixers."
+    }
+  ],
+  "fallback": "BatFirstPersonRig",
+  "provenance": {
+    "author": "Batsnake project",
+    "creationMethod": "Deterministic Python standard-library generator",
+    "redistribution": "MIT; commercial use, modification, and redistribution permitted",
+    "externalSources": []
+  },
+  "statistics": {
+    "byteSize": 70824,
+    "triangles": 782,
+    "vertices": 547,
+    "bones": 15,
+    "materials": [
+      "Body fur",
+      "Wing membrane",
+      "Dark detail"
+    ],
+    "textures": [],
+    "integratedBoundsMeters": [
+      0.4194,
+      0.0606,
+      0.2029
+    ],
+    "origin": "Center of mass",
+    "clipDurationsSeconds": {
+      "flap": 0.55,
+      "glide": 2.6,
+      "brake": 1.1,
+      "dive": 1.4,
+      "panic": 0.36,
+      "captured": 1.6
+    }
+  }
+}

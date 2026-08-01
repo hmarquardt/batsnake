@@ -2,6 +2,18 @@
 
 This file tracks the first playable vertical slice. The checked items are verified in the repository, not merely planned.
 
+## Milestone 4: Creature Fidelity and Presentation
+
+- [x] Create the concise visual review and prioritize production bat, cave readability, boa/contact, sensory, and audio/tactile slices.
+- [x] Replace the bat pilot with a deterministic skinned production GLB, six blended clips, regional heat/echo metadata, peripheral first-person placement, and complete procedural fallback.
+- [x] Improve the procedural boa head, body, coils, preparation, lunge/contact/capture, reason-specific recovery, first-person anatomy, and visual identity without changing strike gameplay.
+- [x] Add deterministic cave surface breakup, wet/dry transitions, deposits, batched formations, entrance depth, and ambush-zone identity without changing layout or collision.
+- [x] Refine echo/thermal presentation, procedural audio, physical camera impulses, optional vibration, and reduced-sensory behavior with bounded resources.
+- [x] Make quality cosmetic by fixing simulation density at the medium boundary; verify exact same-seed construction hashes across all qualities and both modes.
+- [x] Record a 1920×1080 Chrome WebGL2 Apple M2 performance matrix and document asset, texture, geometry, mixer, draw, render-target, and pool budgets.
+- [x] Complete the release failure/input/lifecycle matrix and create the ignored twenty-frame Milestone 4 capture set with per-frame metadata.
+- [x] Prepare one self-contained Milestone 4 revision with clean static, browser, fallback, performance, capture, and documentation validation.
+
 ## Milestone 3 baseline evaluation — 2026-07-31
 
 Commit `6e47e04` was served locally and the twelve Milestone 2 captures were reviewed before Milestone 3 changes. Four automated 12-second bat sessions and four 12-second snake sessions exercised the real fixed-step modes in Chromium WebGL2. Vendor verification passed for all 19 pinned files and the browser reported no application exceptions.

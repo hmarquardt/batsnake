@@ -48,6 +48,14 @@ Capture the difficulty-specific target before the stream ends. Strikes have char
 
 Common dual-stick gamepads are optional. Bat: sticks steer/look, south/right shoulder flaps, left trigger dives, left shoulder brakes, and east calls. Snake: right stick aims, left stick repositions, left trigger focuses, right trigger strikes, shoulders switch, and west toggles thermal. Settings include dead zone, sensitivity, invert Y, enable/disable, and contextual HUD labels.
 
+## Milestone 4: Creature Fidelity
+
+- A deterministic, project-created skinned hero bat replaces the pipeline pilot: six blended states, anatomical finger/membrane structure, regional heat, organic echo response, and restrained first-person placement. The procedural wing rig remains a complete fallback.
+- Boas retain the Milestone 3 controller and strike interfaces while gaining a continuous muscular body, shaped head/jaw, eyes, pit rows, tongue, breathing, preparation compression, contact attachment, and distinct recovery presentation.
+- Cave layout and collision remain unchanged. Deterministic limestone textures, displaced silhouettes, batched formations, localized wetness, mineral/guano residue, entrance vegetation, and ambush-zone identities reduce primitive repetition.
+- Echolocation, thermal focus, procedural audio, event-tied camera response, and optional gamepad vibration were refined without adding a gameplay subsystem or runtime network dependency.
+- Low, medium, and high now simulate identical seeded encounters. They vary only presentation budgets; medium remains the target profile.
+
 ## Milestone 3: Living Hunt
 
 - Every run receives a copyable seed and one of eight authored encounter profiles. A seven-phase director shapes stillness, buildup, peak traffic, disruption, final stream, and resolution without directly steering creatures.
@@ -96,16 +104,16 @@ python3 tools/verify-vendor.py
 
 ## Graphics and accessibility
 
-Low, medium, and high profiles change pixel ratio, shadows, bloom, particles, pulse-history count, acoustic-memory duration, reflected-return count, thermal-persistence budget, and future-run flock density without a page reload. Resolution scale is independently adjustable. Reduced camera motion limits camera/body impulses and skips the traveling snake-switch camera; reduced flashing softens wavefront peaks, return onset, and thermal adaptation. Volume buses, sensory intensity, fullscreen, and an optional performance overlay are included. Settings live only in `localStorage`; there are no cookies, analytics, or telemetry.
+Low, medium, and high profiles change pixel ratio, shadows, bloom, particles, pulse-history count, acoustic-memory duration, reflected-return count, and thermal-persistence budget without changing simulated creatures or outcomes. Resolution scale is independently adjustable. Reduced camera motion limits camera/body impulses and skips the traveling snake-switch camera; reduced flashing softens wavefront peaks, return onset, thermal adaptation, and vibration intensity. Vibration has its own setting and fails silently when unsupported. Volume buses, sensory intensity, fullscreen, and an optional performance overlay are included. Settings live only in `localStorage`; there are no cookies, analytics, or telemetry.
 
 ## Captures
 
-Create a local, uncommitted capture set as follows:
+The final local, uncommitted Milestone 4 set lives in `captures/milestone-4/`:
 
 1. Run `python3 -m http.server 8080`, open the game at 1440×900 or 1920×1080, and create `captures/` if needed. The directory is gitignored.
-2. In browser DevTools, use **Command Menu → Capture screenshot**. Select a fixed seed and record seed, profile, difficulty, viewport, browser, GPU, and resolution scale beside the images.
-3. Capture: profile variation, split traffic, panic cascade, quick call, deep call, braking wings, broad thermal, focused heat, companion repositioning, a pressured strike lane, field report, difficulty selection, gamepad labels, GLB pilot, procedural fallback, and peak-traffic performance overlay.
-4. Name the set `m3-01-…` through `m3-16-…`. Toggle **Hero GLB pilot** off for the fallback frame. `captures/` is gitignored and should remain uncommitted.
+2. Use fixed seed `M4-MOON-RUN-4271` and capture the twenty required menu, bat anatomy, traffic, echo, thermal, strike, contact, escape, report, and quality moments.
+3. Name frames `m4-01-…` through `m4-20-…`; record seed, profile, difficulty, viewport, browser, GPU, quality, and active asset path in `metadata.json`.
+4. Keep `captures/` gitignored. The release set is evidence, not a runtime dependency.
 
 Milestone 2 frames may remain locally beside this set. Do not commit large PNGs unless a release task explicitly asks for them.
 
@@ -115,4 +123,4 @@ The application uses only repository-relative URLs and needs no rewrite rules. I
 
 ## Known limitations
 
-The slice still uses procedural cave/boa art and an intentionally tiny pilot bat model. Determinism covers encounter structure and fixed-step AI decisions, not cross-browser floating-point-perfect input replay or cosmetic particles. Flock density changes on the next run after changing quality. See [ENCOUNTER_DESIGN.md](docs/ENCOUNTER_DESIGN.md), [MODEL_INTEGRATION.md](docs/MODEL_INTEGRATION.md), [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), and [NEXT_STEPS.md](docs/NEXT_STEPS.md).
+The boa and cave are deliberately bounded procedural production treatments rather than external scan assets. Echo travel fronts can still show bands across nearby faceted surfaces. Determinism covers encounter structure and fixed-step AI decisions, not cross-browser floating-point-perfect input replay, audio noise, or cosmetic particles. See [ENCOUNTER_DESIGN.md](docs/ENCOUNTER_DESIGN.md), [MODEL_INTEGRATION.md](docs/MODEL_INTEGRATION.md), [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), and [NEXT_STEPS.md](docs/NEXT_STEPS.md).

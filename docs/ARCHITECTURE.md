@@ -63,3 +63,13 @@ Echo and thermal profile budgets live in `Settings.profile()`. Both systems expo
 `ModelAdapter` is the single optional GLB seam. It loads through `AssetManager`, validates metadata, resolves nodes/clips, owns an animation mixer and cloned presentation resources, registers heat/echo regions, exposes attachment transforms, and disposes itself. It consumes the same visual state as `BatFirstPersonRig`; gameplay never reaches into the model. See `MODEL_INTEGRATION.md`.
 
 The overlay adds seed, phase, route occupancy, panic count, average snake alertness, active device, and director CPU time. Event queues remain synchronous/bounded; route counts and snake histories reuse fixed records. Same-seed determinism applies to broad fixed-step encounter behavior, not render interpolation or cross-browser bit identity.
+
+## Milestone 4 presentation adapters
+
+`ModelAdapter` now skeleton-clones the project-created hero bat, validates node/clip/resource budgets before hiding the fallback, owns one mixer, and performs state-transition cross-fades. Load generations prevent late asynchronous completion from attaching after disposal. Captured prey uses the same adapter through a guarded factory; repeated captures restart the one-shot clip. Controller state remains the only gameplay source.
+
+`SnakeRig` remains procedural by design: three controllers each feed one 40×14 dynamically deformed body geometry shared by normal, echo, and heat meshes. Head, jaw, pits, tongue, coils, captured attachment, identity treatment, and recovery shapes are presentation children. Miss classification occurs only after the unchanged `SnakeStrike` result and cannot change collision or timing.
+
+Quality profiles now share a fixed simulated flock count at the former medium boundary. Quality-dependent state is restricted to renderer resolution, shadows/bloom, particles, echo histories/returns/detail, and thermal trail budgets. A paused-loop same-seed construction test verifies exact low/medium/high state equality in both modes.
+
+Audio and haptic responses subscribe to physical events. Delayed reflection timers and ambience modulation are bounded and disposed; Gamepad vibration is guarded, optional, and attenuated by reduced-sensory settings. No presentation feature creates a runtime network request.
