@@ -1,20 +1,18 @@
-# BATSNAKE
+# BATSNAKE · 0.5.0-rc1
 
-Batsnake is a first-person 3D wildlife survival game about Cuban boas hunting bats at a cave flight line. One shared chamber supports two different embodied and sensory experiences: fly toward moonlight using echolocation, or hang above the stream and read living heat before committing to a physical strike.
+**Fly as a bat. Hunt as a boa.** One cave, two radically different senses.
 
-This repository is a no-build static application. It does not require npm, Node.js, a bundler, a compiler, or a runtime internet connection.
+Batsnake is a first-person 3D game about Cuban boas hunting bats at a cave flight line. In **Bat** mode, you navigate toward moonlight using echolocation — quick taps for nearby geometry, deep held calls for a wider picture. In **Snake** mode, you hang above the stream, toggle thermal vision, read living heat, and commit to physical lunges. The same seed produces the same encounter in both modes.
 
-## Play
-
-From the repository root:
+No npm, no build step, no runtime internet. Open the folder and serve it:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Open <http://localhost:8080>. Use a current desktop Chrome, Edge, Firefox, or Safari with WebGL2, ES modules, WebAssembly, pointer lock, and Web Audio enabled. Headphones are recommended. Opening `index.html` through `file://` is intentionally intercepted with startup instructions because browsers block module and WASM loading there.
+Then visit <http://localhost:8080> in a current desktop Chrome, Edge, Firefox, or Safari. Works fully offline once loaded. Headphones recommended.
 
-Choose **Gameplay** on the main menu for a persistent, compact Bat and Snake reference. The same reference remains available from the pause menu after contextual guidance has been dismissed.
+Choose **Gameplay** on the main menu for a persistent Bat and Snake reference. The same reference is available from the pause menu.
 
 ### Bat controls
 

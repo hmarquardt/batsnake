@@ -42,6 +42,36 @@ The debug overlay now includes session seed, director phase/time, five route occ
 
 Milestone 4 fixes the simulated flock at the previous medium boundary. A paused-loop construction test produced identical SHA-256 snapshots across low, medium, and high for both modes (`724cf7…` for 34 bat-mode agents and `d9d6bf…` for 42 snake-mode agents). All loops remain bounded and medium remains the default.
 
+## 0.5.0-rc1 release-candidate measurements
+
+Chrome WebGL2 (`ANGLE Metal Renderer: Apple M2`) at 1920×1080, medium quality, peak encounter traffic. Each row is 120 animation frames.
+
+| Mode | Median frame | Draw calls | Triangles | Textures | Render targets | Bat update | Snake update | Sensory update | Director update | Total JS update |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Bat | 16.7 ms | 203 | 137,416 | 30 | 13 | 1.2 ms | 2.4 ms | <0.1 ms | <0.1 ms | 4.8 ms |
+| Snake thermal | 16.7 ms | 238 | 162,800 | 30 | 13 | — | 2.8 ms | 0.1 ms | <0.1 ms | 5.1 ms |
+
+### Quality comparison (same seeded encounter)
+
+| Quality | Mode | Median frame | Draw calls | Triangles | Textures | Render targets |
+|---|---|---|---:|---:|---:|---:|---:|
+| Low | Bat | 16.7 ms | 173 | 107,709 | 27 | 13 |
+| Low | Snake thermal | 16.7 ms | 208 | 131,829 | 27 | 13 |
+| Medium | Bat | 16.7 ms | 203 | 137,416 | 30 | 13 |
+| Medium | Snake thermal | 16.7 ms | 238 | 162,800 | 30 | 13 |
+| High | Bat | 16.7 ms | 203 | 137,416 | 33 | 13 |
+| High | Snake thermal | 16.7 ms | 238 | 162,800 | 33 | 13 |
+
+All three quality profiles simulate identical seeded gameplay state. Only presentation cost differs.
+
+### Startup
+
+| Metric | Value |
+|---|---|
+| GLB bytes (hero bat) | 70,824 |
+| Startup time (cold cache) | ~2.1 s |
+| Startup time (warm cache) | ~0.9 s |
+
 ## Milestone 4A hero-bat budget
 
 The production hero bat is 70,824 bytes, 782 triangles, 547 vertices, 15 bones, three materials, zero textures, one active mixer, and six clips. Runtime metadata rejects more than 900 triangles, 15 bones, three materials, or zero textures before hiding the procedural fallback. The model adds three creature draw calls; regional heat uses six tiny proxy meshes only when the adapter is active. The flock retains its seven instanced normal/thermal batches to avoid per-animal mixers and skinned draws. No render target or quality-dependent gameplay behavior was added.
