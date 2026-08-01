@@ -10,7 +10,9 @@ No npm, no build step, no runtime internet. Open the folder and serve it:
 python3 -m http.server 8080
 ```
 
-Then visit <http://localhost:8080> in a current desktop Chrome, Edge, Firefox, or Safari. Works fully offline once loaded. Headphones recommended.
+Then visit <http://localhost:8080>. The installed Chrome build and a supplemental Firefox Nightly engine have automated coverage on macOS; stable Firefox, Safari, and Edge are not yet directly certified for this RC. See [`docs/BROWSER_MATRIX.md`](docs/BROWSER_MATRIX.md) for exact versions and limitations. Runtime assets are local and work offline. Headphones are recommended, but the required listening validation is still open.
+
+> Release status: `0.5.0-rc1` is **BLOCKED**, not ready to tag. Automated lifecycle, resource, and engine checks found and fixed concrete defects; required human playability/audio, multi-seed difficulty, strike-learning, stable-browser, gamepad, and interactive performance gates remain. See [`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md).
 
 Choose **Gameplay** on the main menu for a persistent Bat and Snake reference. The same reference is available from the pause menu.
 

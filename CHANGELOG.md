@@ -2,6 +2,16 @@
 
 ## 0.5.0-rc1 — Release Candidate
 
+Release verification currently reports **RC STATUS: BLOCKED**. See `docs/RELEASE_CHECKLIST.md`; the candidate is not ready to tag until the listed human, multi-seed, stable-browser, gamepad, and performance gates are completed.
+
+### RC truth-reconciliation fixes
+
+- Dispose cloned hero-bat skeletons so their renderer bone textures do not grow across restarts and perspective switches. The first 50/50/25/25 stress run grew to 159 textures; the final rerun remained bounded at 27 in Bat and 24 in Snake.
+- Add stall-speed hysteresis and reset the previous-stall flag so the stall cue emits once per genuine stall/restall transition instead of oscillating at the threshold.
+- Fall back to `AudioListener.setPosition()` / `setOrientation()` when Firefox does not expose Chromium-style listener AudioParams.
+- Clear delayed cue timers and active ambience-duck timers whenever a run restarts, changes perspective, or returns to menu, preventing old-mode audio from leaking into the new state.
+- Replace vague browser passes and unqualified performance claims with exact executed versions, measured limitations, and explicit untested states.
+
 ### HUD
 
 - Removed call-type indicator from Bat HUD (player already knows what they triggered; audio differentiates quick vs deep).
@@ -25,7 +35,7 @@
 
 ### Difficulty tuning
 
-- Field Study, Night Flight, and Flight Line differ behaviorally through density, snake reaction, panic, duration, target, call cooldown, and route pressure.
+- Field Study, Night Flight, and Flight Line are configured to differ through density, snake reaction, panic, duration, target, call cooldown, and route pressure. The required 30-session human difficulty validation remains incomplete.
 - Flight Line doubles the snake body coil compression during charge for clearer strike preparation.
 - Flight Line increases the S-curve neck tension during charge for more visible body language.
 

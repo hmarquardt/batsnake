@@ -42,7 +42,9 @@ The debug overlay now includes session seed, director phase/time, five route occ
 
 Milestone 4 fixes the simulated flock at the previous medium boundary. A paused-loop construction test produced identical SHA-256 snapshots across low, medium, and high for both modes (`724cf7…` for 34 bat-mode agents and `d9d6bf…` for 42 snake-mode agents). All loops remain bounded and medium remains the default.
 
-## 0.5.0-rc1 release-candidate measurements
+## Previously recorded 0.5.0-rc1 measurements
+
+The following 16.7 ms/vsync tables predate the 2026-08-01 truth-reconciliation run. They are retained for regression history as requested, but their original raw traces were not present and the exact Chrome version/date were not recorded. They therefore do not, by themselves, pass the current release gate.
 
 Chrome WebGL2 (`ANGLE Metal Renderer: Apple M2`) at 1920×1080, medium quality, peak encounter traffic. Each row is 120 animation frames.
 
@@ -71,6 +73,22 @@ All three quality profiles simulate identical seeded gameplay state. Only presen
 | GLB bytes (hero bat) | 70,824 |
 | Startup time (cold cache) | ~2.1 s |
 | Startup time (warm cache) | ~0.9 s |
+
+## 2026-08-01 RC truth diagnostic
+
+The installed Google Chrome 150.0.7871.187 binary was launched headlessly on macOS 15.6.1, MacBook Air Mac14,2, Apple M2 8-core GPU, at 1920×1080 and medium quality. Each peak segment sampled 240 animation frames after explicitly releasing the full flock. JavaScript update, fixed-step work, and composer submission were timed independently with `performance.now()`; these are browser CPU/submit measurements, not GPU timings.
+
+| Segment | Frame median / p95 / max | JS update p95 / max | Fixed work p95 / max | Render submit p95 / max | Long frames (>50 ms) |
+|---|---:|---:|---:|---:|---:|
+| Bat warm, 60 frames | 18.9 / 23.4 / 60.7 ms | 0.3 / 0.3 ms | 0.8 / 1.8 ms | 2.0 / 2.3 ms | 1 |
+| Peak deep echolocation | 19.7 / 23.3 / 75.9 ms | 0.2 / 0.6 ms | 0.8 / 2.4 ms | 2.0 / 54.1 ms | 1 |
+| Peak focused thermal flock | 19.3 / 22.8 / 133.2 ms | 0.2 / 1.0 ms | 0.8 / 1.4 ms | 1.9 / 114.1 ms | 1 |
+
+First hero-bat animation submission measured 0.2 ms, the deep-call emission function 1.1 ms, and thermal-toggle state change 0.4 ms. The final peak frames reported 198 calls / 135,448 triangles / 27 renderer textures in Bat and 244 calls / 163,200 triangles / 24 renderer textures in Snake, with 13 bounded composer render targets.
+
+The low steady-state p95 CPU and submit values show CPU-side headroom, but the headless frame cadence did not sustain 60 FPS and the first sensory activations contained large one-time render-submit spikes consistent with deferred shader work. No GPU timer was available, so no GPU duration is claimed. An attempted run with `--disable-frame-rate-limit --disable-gpu-vsync` produced WebGL shader validation failures and zero render counters; that run is invalid and none of its timing numbers are used.
+
+Release conclusion: the only defensible current statements are that steady-state JavaScript and render submission are below the 16.7 ms budget on this setup, and that first-use sensory shader spikes require an interactive trace or an explicit acceptance decision. The current run does not certify sustained 60 FPS.
 
 ## Milestone 4A hero-bat budget
 

@@ -19,7 +19,7 @@ Batsnake is a first-person wildlife *simulation game* — not a biology simulato
 ### Strike mechanics
 
 - **Inspired by**: Boas strike forward with an open mouth, seize prey, and constrict. The game models charge, lunge, swept collision, capture, and recovery.
-- **Simplified for play**: The charge-fill meter, S-curve body compression, and jaw gape are readability aids. Real strikes are faster, shorter-range, and resolved by contact rather than swept collision volumes.
+- **Simplified for play**: The exaggerated S-curve body compression, thermal head tension, and jaw gape are readability aids. Real strikes are faster, shorter-range, and resolved by contact rather than swept collision volumes.
 
 ## Bats
 

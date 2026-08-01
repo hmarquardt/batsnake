@@ -2,6 +2,26 @@
 
 This matrix records release-focused checks above the milestone implementation matrices. Browser checks use the served, build-free application and cleared `batsnake.settings.v1` / `batsnake.guidance.v1` storage unless noted.
 
+The authoritative release decision is `RELEASE_CHECKLIST.md`. Earlier rows below are retained as implementation-regression history and must not be interpreted as full browser, listening, human-playability, difficulty, or release passes.
+
+## RC truth-reconciliation run — 2026-08-01
+
+| Area | Executed evidence | Result |
+|---|---|---|
+| Static/offline | All `src/**/*.js` parsed with `node --check`; vendor verifier passed 19 files / 2 dependencies; no package manifest exists | Pass |
+| Installed Chrome | Chrome 150.0.7871.187 at 1440×900/1366×768 exercised startup, GLB, both basic control flows, pause/resume, pointer-lock loss, resize, forced reports, same-seed replay, both perspective switches, and menu cleanup; 90 requests, all local | Partial automated pass |
+| Firefox engine | Playwright Firefox Nightly 151.0 found an AudioListener crash; after the compatibility fix the same smoke completed with no errors and 89 local-only requests | Partial automated pass; stable Firefox 150.0.1 not directly tested |
+| WebKit | Cached Playwright WebKit revision 2311 aborted before page load because it requires macOS 26.2 | Not tested |
+| Resource lifecycle | Required 50 Bat restarts, 50 Snake restarts, 25 switches, 25 same-seed replays | Pass after fixing skeleton bone-texture disposal; see `RESOURCE_STRESS_TEST.md` |
+| Opposite perspective | Seed, difficulty, profile preserved both directions; thermal/focus/strike/call/HUD/body classes cleaned; menu FOV returned to 72; final Chrome run measured zero deferred/duck audio timers after each switch | Pass in Chrome and Firefox Nightly automation; transient-audio reset confirmed in final Chrome run |
+| Platform | Direct-file fatal UI, fullscreen entry/exit, and localStorage reload persistence | Pass in Chrome headless |
+| Performance | Installed Chrome 1920×1080 medium diagnostic separated JS/fixed/render-submit and recorded first-use sensory spikes | Measured, not a 60 FPS certification; see `PERFORMANCE.md` |
+| Audio identity | Routing exercised; no human listening | Not tested as a release gate |
+| Human playability / HUD | No human novice-perspective session | Not tested |
+| Strike learning | One automated lead miss per engine; no 20-attempt human series | Not tested as required |
+| Difficulty | Configuration differs; no 30-session evidence set | Not tested as required |
+| Gamepad | No physical controller attached/tested | Not tested |
+
 ## First-run Bat audit — 2026-08-01
 
 The pre-fix controller started at `(1, 3, -45)`, facing `+Z` (`yaw 0`, `pitch 0`) with velocity `(0, 0, 7)` m/s. A deterministic replay of that transform at zero input did not collide or emit echolocation in eight seconds. The apparent autonomy was therefore the intended momentum model, not synthetic input. The early presentation still failed: the game did not explain the glide persistently, boas could begin audible AI strikes during the opening seconds, and any player-caused cave contact spawned an expanding additive ring close enough to the sonar vocabulary to be misread.
