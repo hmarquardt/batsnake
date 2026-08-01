@@ -37,3 +37,21 @@ The current soft launch starts at `(-1.2, 3.4, -49.5)`, faces `+Z`, and carries 
 | 11 | Browser/runtime hygiene | Pass — no page exceptions and no requests outside the local origin |
 
 Web Audio was stubbed for the automated movement run to avoid headless device initialization; event-to-audio routing was audited directly. Live audio retains the existing local procedural path. Pointer lock, gamepad, reduced sensory options, fallback assets, quality determinism, and lifecycle coverage remain in the Milestone 4 validation record.
+
+## Post-fix Bat and Snake usability — 2026-08-01
+
+The Gameplay reference was compared row-by-row with `KEY_ACTIONS`, `GAMEPAD_BUTTONS`, `InputManager.actionDown()`, `actionReleased()`, and `axis()`. Keyboard/mouse and gamepad groups are separate. Standard gamepad labels map as follows: Bat A/RB flap, LT dive, LB brake, B call, Y restart, Menu pause; Snake right stick aim, left stick reposition, X thermal, LT focus, RT strike, LB/RB switch, Y restart, Menu pause. Snake left-stick Y is normalized so up extends like `W`.
+
+| Snake first-run step | Observed result |
+|---|---|
+| Start and wait three seconds | Normal thermal-off cave view; controller stayed anchored at post 0; no strike state |
+| Aim head | Yaw changed from `0` to `-0.041`; anchored-body prompt retired |
+| Toggle thermal and identify motion | Thermal became active with 42 registered moving heat sources |
+| Focus | Focus blended to `0.81`; prompt identified narrowed flight-path attention |
+| Reposition around anchor | D/W input produced `0.49` lateral offset and `0.42` extension |
+| Hold and lead | Strike entered `prepare` and reached `0.50` charge after 0.55 seconds |
+| Release | `snake-strike-started` emitted; the finite lunge resolved as an overreach miss |
+| Recover | Controller returned from `recover` to `idle`; guidance named travel time and recovery |
+| Switch post | Q/E changed selected snake from 0 to 1 and retired switch guidance |
+
+At 1920×1080, 1440×900, and 1366×768 the tabbed Gameplay sheet measured 653 CSS pixels high with equal client/scroll height and `scrollTop=0`. Bat/Snake tabs, active-device label, top Close control, keyboard table, and gamepad table remained visible. Opening from pause selected the active animal, closing retained `paused`, and focus returned to the Gameplay button. Browser review reported no page exceptions or remote requests.

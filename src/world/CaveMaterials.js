@@ -99,6 +99,7 @@ export class CaveMaterials {
       pulseIntensity: { value: 0 },
       surfaceDetail: { value: .75 },
       geometryFill: { value: .5 },
+      surfaceOffset: { value: .015 },
     };
     this.echo = new THREE.ShaderMaterial({
       uniforms: this.echoUniforms,
@@ -107,12 +108,10 @@ export class CaveMaterials {
       depthTest: true,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
-      polygonOffset: true,
-      polygonOffsetFactor: -4,
-      polygonOffsetUnits: -4,
       vertexShader: `
         varying vec3 vWorld;
         varying vec3 vNormalW;
+        uniform float surfaceOffset;
         void main(){
           vec4 localPosition=vec4(position,1.0);
           vec3 localNormal=normal;
@@ -121,8 +120,9 @@ export class CaveMaterials {
             localNormal=mat3(instanceMatrix)*localNormal;
           #endif
           vec4 worldPosition=modelMatrix*localPosition;
-          vWorld=worldPosition.xyz;
           vNormalW=normalize(mat3(modelMatrix)*localNormal);
+          worldPosition.xyz+=vNormalW*surfaceOffset;
+          vWorld=worldPosition.xyz;
           gl_Position=projectionMatrix*viewMatrix*worldPosition;
         }`,
       fragmentShader: `
@@ -152,18 +152,25 @@ export class CaveMaterials {
             float age=pulseAges[i];
             float distanceFromCall=distance(vWorld,pulseOrigins[i]);
             float radius=min(pulseRange,max(0.0,age)*waveSpeed);
-            float front=1.0-smoothstep(.2,2.3+distanceFromCall*.03,abs(distanceFromCall-radius));
+            float radialAA=max(.35,fwidth(distanceFromCall)*1.8);
+            float frontWidth=1.15+distanceFromCall*.022+radialAA;
+            float front=1.0-smoothstep(frontWidth*.18,frontWidth,abs(distanceFromCall-radius));
             float sinceArrival=age-distanceFromCall/waveSpeed;
             float arrived=step(0.0,sinceArrival)*step(distanceFromCall,pulseRange);
-          float uneven=.68+.32*vnoise(vWorld*.5+float(i)*7.3);
-            direct=max(direct,front*step(0.0,age)*(.5+.5*uneven));
+            float uneven=.58+.27*vnoise(vWorld*.48+float(i)*7.3)+.15*vnoise(vWorld*.19+float(i)*3.1);
+            direct=max(direct,front*step(0.0,age)*uneven);
             memory=max(memory,arrived*exp(-sinceArrival/max(.35,memoryDecay))*uneven);
           }
           vec3 viewDirection=normalize(cameraPosition-vWorld);
           float silhouette=pow(1.0-abs(dot(viewDirection,normalize(vNormalW))),2.1);
           float grain=vnoise(vWorld*2.4);
+          float broad=vnoise(vWorld*.22+vec3(2.7,7.1,4.3));
           float fill=mix(.08,.48,clamp(geometryFill,0.,1.));
-          float response=direct*(fill+silhouette*.42+grain*.14*surfaceDetail)+memory*(fill*.3+silhouette*.24+grain*.1*surfaceDetail);
+          float nearFade=smoothstep(.8,4.8,distance(cameraPosition,vWorld));
+          float contour=smoothstep(.08,.9,silhouette);
+          float directShape=(fill*.55+contour*.15+grain*.075*surfaceDetail)*mix(.68,1.0,broad)*mix(.58,1.0,nearFade);
+          float memoryShape=fill*.3+contour*.2+grain*.085*surfaceDetail;
+          float response=direct*directShape+memory*memoryShape;
           response*=pulseIntensity;
           if(response<.00035)discard;
           vec3 memoryColor=vec3(.055,.24,.23);

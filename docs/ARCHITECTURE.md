@@ -18,7 +18,7 @@ Rapier holds deliberately simple static chamber volumes. Player flight uses a ma
 
 `InputManager` owns keyboard, pointer button edges, accumulated pointer-lock deltas, and lock errors. Modes consume semantic state directly; no controller attaches its own browser listeners. Pointer-lock loss pauses a live run. The canvas can request lock again after denial. `Escape` and `R` are application actions; creature controls remain mode-local.
 
-`GameplayMenu` is a persistent UI reference built from those implemented bindings, reachable from both menu and pause states. It owns modal focus/return focus but never changes game phase; opening it over pause leaves the run paused. Contextual onboarding remains optional and transient.
+`GameplayMenu` is a persistent UI reference built from those implemented bindings, reachable from both menu and pause states. Bat/Snake tabs keep keyboard/mouse and gamepad maps legible at narrower desktop heights, while input-device events select the emphasized map. It owns modal focus/return focus but never changes game phase; opening it over pause leaves the run paused. Contextual onboarding remains optional, transient, action-gated, and cleared when a mode is disposed.
 
 ## Entity boundaries
 

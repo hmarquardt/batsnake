@@ -22,7 +22,7 @@ function displace(geometry, amount, frequency, seed = 0) {
 }
 
 /** Per-draw acoustic fill: formations favor contours, broad walls retain surface memory. */
-function echoCharacter(mesh,materials,fill){mesh.onBeforeRender=()=>{materials.echoUniforms.geometryFill.value=fill;};return mesh;}
+function echoCharacter(mesh,materials,fill,surfaceOffset=.015){mesh.onBeforeRender=()=>{materials.echoUniforms.geometryFill.value=fill;materials.echoUniforms.surfaceOffset.value=surfaceOffset;};return mesh;}
 
 export class CaveGenerator {
   /** @param {THREE.Scene} scene @param {import('./CaveMaterials.js').CaveMaterials} materials */
@@ -49,7 +49,7 @@ export class CaveGenerator {
     }
     tunnel.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));tunnel.computeVertexNormals();
     const shell = new THREE.Mesh(tunnel, this.materials.rock); shell.receiveShadow = true; shell.name = 'Limestone chamber shell'; this.group.add(shell);
-    const echoShell = echoCharacter(new THREE.Mesh(tunnel, this.materials.echo),this.materials,.55); echoShell.renderOrder = 3; echoShell.name = 'Echolocation surface response'; this.group.add(echoShell);
+    const echoShell = echoCharacter(new THREE.Mesh(tunnel, this.materials.echo),this.materials,.55,-.045); echoShell.renderOrder = 3; echoShell.name = 'Echolocation surface response'; this.group.add(echoShell);
 
     this.addRockClusters(); this.addFormations(); this.addEntrance(); this.addRoost(); this.addAmbushIdentity();
     return { path, obstacles: this.obstacles, spatialFeatures: this.spatialFeatures, echoLandmarks: this.echoLandmarks };

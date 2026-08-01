@@ -2,6 +2,19 @@
 
 This file tracks the first playable vertical slice. The checked items are verified in the repository, not merely planned.
 
+## Post-Milestone 4 usability review — 2026-08-01
+
+Fresh storage, default Night Flight difficulty, fixed seeds, keyboard/mouse input, and the served Chrome WebGL2 build were used. Gameplay reference layouts were inspected at 1920×1080, 1440×900, and 1366×768. The exact Bat and Snake flows are recorded in `RELEASE_TEST_MATRIX.md`.
+
+- [x] **Control comprehension:** every keyboard/mouse binding matches `InputManager` and every Xbox-style gamepad label matches `GAMEPAD_BUTTONS`. Snake gamepad vertical input was corrected so stick-up and `W` both extend from the anchor. Bat and Snake tabs now expose both device maps without scrolling; the active device block is named and emphasized.
+- [x] **Gameplay-panel UX:** the old two-column panel focused its bottom Close button and auto-scrolled at 1366×768, clipping the top context. Mode tabs and a top Close control now keep all three viewports at `scrollTop=0`; Escape closes only the panel, focus returns to its invoking button, and a pause-opened panel leaves the run paused.
+- [x] **Bat first run:** three seconds at zero input remained airborne with no collision, impact, call, or snake event. Steering changed yaw; flap, brake, quick call, and deep call produced distinct state/events; the first strike event arrived after the six-second safe envelope. The world/HUD communicate exit range and moving air, while the Gameplay text explains unavoidable momentum and inability to hover.
+- [x] **Snake first run:** three seconds preserved normal dark vision and the first prompt explained the ceiling anchor. Mouse aim retired that prompt; thermal exposed 42 warm sources; focus reached `0.81`; W/D repositioned extension/offset to `0.42/0.49`; a held strike reached `0.50` charge, released, missed by overreach, recovered to idle, and Q/E moved observation to the next post.
+- [x] **Cause and recovery:** rock impact remains local dust/dull contact with speed loss and wing/camera disturbance; it cannot emit echo. Quick/deep calls are intentional and separately counted. Snake miss guidance names lunge travel time and offers recovery or switching. Bat capture and Snake stream expiry retain distinct field-report causes.
+- [x] **Echo artifact:** periodic world-position sine grain, not cave collision or acoustic memory, caused the severe diagonal pulse stripes. Smooth value noise plus antialiased/broken surface response removes the repeated band without a render target or gameplay change.
+- [ ] **Remaining usability weakness:** first-time target leading is explained and the miss reason is readable, but success still depends on learning route speed from live traffic. Tune strike feel only after multi-seed observation; do not add aim assistance or target outlines.
+- [ ] **Remaining release work:** evaluate HUD redundancy, finish the audio distinction pass, tune all difficulties across multiple seeds, audit pause/focus-loss/restart/mode-switch lifecycle, run repeated disposal/leak tests, and validate Chrome, Firefox, Safari, and Edge before `0.5.0-rc1`.
+
 ## Milestone 4: Creature Fidelity and Presentation
 
 - [x] Resolve first-run release blockers with a persistent Gameplay reference, centered soft launch, six-second safe envelope, and non-acoustic collision presentation.
