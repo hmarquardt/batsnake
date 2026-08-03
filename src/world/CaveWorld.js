@@ -21,9 +21,12 @@ export class CaveWorld {
     this.obstacles.forEach((obstacle)=>{const c=obstacle.center;this.physics.createCollider(RAPIER.ColliderDesc.ball(obstacle.radius).setTranslation(c.x,c.y,c.z),body);});
   }
   fixedUpdate() { this.physics.step(); }
+  update(dt,director=null,airflow=0){this.generator.update(dt,director,airflow);}
+  setMenuMode(active){this.generator.setMenuMode(active);}
+  prepareRender(){this.generator.setEchoVisible(this.materials.echoUniforms.pulseIntensity.value>.001);}
   /** Soft gameplay collision compatible with the deliberately simplified Rapier volumes. @param {THREE.Vector3} position @param {number} radius */
   resolveSphere(position,radius) {
     return this.spatial.resolveSphere(position,radius);
   }
-  setQuality(profile){this.lighting.setShadows(profile.shadows);this.materials.setEchoProfile(profile);}
+  setQuality(profile){this.lighting.setShadows(profile.shadows);this.materials.setEchoProfile(profile);this.generator.setQuality(profile);}
 }

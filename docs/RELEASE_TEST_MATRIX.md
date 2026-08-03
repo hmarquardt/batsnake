@@ -22,6 +22,19 @@ The authoritative release decision is `RELEASE_CHECKLIST.md`. Earlier rows below
 | Difficulty | Configuration differs; no 30-session evidence set | Not tested as required |
 | Gamepad | No physical controller attached/tested | Not tested |
 
+## Milestone 6 environment regression — 2026-08-02
+
+| Area | Executed evidence | Result |
+|---|---|---|
+| Authored space | Fixed-camera before set plus 20-view after set at 1440×900; named mouth, roost, landmarks, routes, wetness, ecology, echo, thermal, perspectives, peak, menu, and quality views | Captured locally under gitignored `captures/milestone-6/`; visual judgment is development evidence, not novice playtest evidence |
+| Route/collision agreement | 99 centerline samples per route against a 0.42-radius soft sphere after proxy refinement | Central, High, Lower, and Arc clear; Shelf has two localized Guano Shelf brush samples, max 0.318 m displacement, rather than a blocked corridor |
+| Chrome lifecycle | Existing installed-Chrome RC smoke rerun at 1440×900 → 1366×768 | Pass with forced outcomes; startup, GLB, controls, pause/pointer loss, replay, both switches, cleanup, 90 local requests / zero non-local, no errors |
+| Resource lifecycle | Exact 50/50/25/25 sequence rerun | Pass; fixed environment baseline and active-mode resources bounded, see `RESOURCE_STRESS_TEST.md` |
+| Quality identity | Same seed/state serialized for low, medium, and high in both modes | Exact hashes match within each mode; 34 Bat-mode flock and 42 Snake-mode flock in every profile |
+| Performance | Installed Chrome, 1920×1080 medium, 180-frame normal/echo/thermal segments | Measured; CPU p95 low, headless cadence inconsistent, first echo submit spike 91.4 ms; not a 60 FPS certification |
+| Static/offline/vendor | Every source file parsed; browser request audit; `tools/verify-vendor.py` | Pass; zero non-local runtime requests, 19 vendored files / 2 dependencies verified |
+| Human RC gates | Audio identity, novice playability/HUD, 20 strikes, 30 difficulty sessions, physical gamepad, stable-browser interaction | Still not tested; Milestone 6 does not resolve them |
+
 ## First-run Bat audit — 2026-08-01
 
 The pre-fix controller started at `(1, 3, -45)`, facing `+Z` (`yaw 0`, `pitch 0`) with velocity `(0, 0, 7)` m/s. A deterministic replay of that transform at zero input did not collide or emit echolocation in eight seconds. The apparent autonomy was therefore the intended momentum model, not synthetic input. The early presentation still failed: the game did not explain the glide persistently, boas could begin audible AI strikes during the opening seconds, and any player-caused cave contact spawned an expanding additive ring close enough to the sonar vocabulary to be misread.

@@ -34,11 +34,13 @@ Rapier holds deliberately simple static chamber volumes. Player flight uses a ma
 
 ## Rendering
 
-The renderer uses ACES filmic tone mapping and sRGB output. The chamber shell is a deformed, vertex-colored interior tube; instanced clusters, formations, columns, entrance haze, and deposits break silhouette and repetition. EffectComposer owns the render, restrained bloom, and output passes. Quality settings modify pixel ratio, shadows, bloom, and particle draw range. Fog and darkness are gameplay state, not missing light.
+The renderer uses ACES filmic tone mapping and sRGB output. `CaveGenerator` builds one authored variable elliptical shell and named landmark sequence around the unchanged route network. Instanced breakdown, ceiling ribs, fangs, roost silhouettes, vegetation, and distant scenery bound repeated detail; hero columns, draperies, shelves, and fallen sections carry distinctive silhouettes. Locally generated limestone, seep, bedding, fracture, guano, and vegetation maps require no asset request. Dormant echo copies are hidden outside an active call.
+
+`caveSectionAt()` is the common macro envelope for shell construction, soft collision, and nearby wall returns. Solid landmarks use simplified compound sphere proxies; cavity, roost, and mouth response volumes reflect sound but never resolve as physical solids. EffectComposer owns the render, restrained bloom, and output passes. Quality settings modify pixel ratio, shadows, bloom, sensory history, and bounded particle/distant detail only. Fog and darkness are gameplay state, not missing light.
 
 ## Audio
 
-`AudioManager` creates one context after an explicit play interaction, with master, effects, ambience, and creature gain buses. The current sound set is generated locally: a filtered noise/low-frequency ambience loop and short positioned oscillator envelopes for calls, reflections, flaps, impacts, strikes, captures, and drips. `CaveAmbience`, `EcholocationAudio`, and `CreatureAudio` are replacement facades for future licensed buffers. The camera updates the Web Audio listener each frame. Failure disables sound and posts a notice without stopping play.
+`AudioManager` creates one context after an explicit play interaction, with master, effects, ambience, and creature gain buses. The current sound set is generated locally: a filtered noise/low-frequency ambience loop and short positioned oscillator envelopes for calls, formation-specific reflections, flaps, impacts, strikes, captures, and drips. `CaveAmbience` weights drips, colony wings, open-air wind, entrance insects, and deep resonance from camera region and existing encounter density. The camera updates the Web Audio listener each frame. Failure disables sound and posts a notice without stopping play.
 
 ## Assets and failures
 

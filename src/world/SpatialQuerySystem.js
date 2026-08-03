@@ -1,11 +1,11 @@
 // @ts-check
 import * as THREE from 'three';
-import { caveRadiusAt, ENTRANCE } from './NavigationVolumes.js';
+import { caveSectionAt, ENTRANCE } from './NavigationVolumes.js';
 
 /**
  * @typedef {Object} SpatialFeature
  * @property {string} id
- * @property {'column'|'shelf'|'stalactite'|'mouth'|'wall'|'floor'|'snake'} kind
+ * @property {'column'|'shelf'|'stalactite'|'mouth'|'wall'|'floor'|'snake'|'drapery'|'rubble'|'roost'|'arch'|'cavity'} kind
  * @property {THREE.Vector3} center
  * @property {number} radius
  * @property {number} reflectivity
@@ -50,7 +50,7 @@ export class SpatialQuerySystem {
     const lengthSquared = _segment.lengthSq();
     if (lengthSquared < .0001) return true;
     for (const feature of this.staticFeatures) {
-      if (feature.kind === 'mouth' || feature.id === ignoredId) continue;
+      if (feature.kind === 'mouth' || feature.kind === 'cavity' || feature.kind === 'roost' || feature.id === ignoredId) continue;
       _offset.subVectors(feature.center, from);
       const t = THREE.MathUtils.clamp(_offset.dot(_segment) / lengthSquared, 0, 1);
       _closest.copy(from).addScaledVector(_segment, t);
@@ -93,13 +93,13 @@ export class SpatialQuerySystem {
       selected.push(hit);
     };
 
-    const radius = caveRadiusAt(origin);
+    const section = caveSectionAt(origin);
     for (const side of [-1, 1]) {
-      _candidate.set(side * (radius - .4), origin.y, origin.z + 2.5);
+      _candidate.set(section.centerX + side * (section.xRadius - .4), origin.y, origin.z + 2.5);
       _normal.set(-side, 0, 0);
       add(`wall-${side}`, 'wall', _candidate, _normal, .72, null);
     }
-    _candidate.set(origin.x, -7.8, origin.z + 1.5); _normal.set(0, 1, 0);
+    _candidate.set(origin.x, section.centerY-section.yRadius+.35, origin.z + 1.5); _normal.set(0, 1, 0);
     add('floor-near', 'floor', _candidate, _normal, .58, null);
 
     for (const feature of this.allFeatures()) {
@@ -115,15 +115,12 @@ export class SpatialQuerySystem {
   /** @param {THREE.Vector3} position @param {number} radius */
   resolveSphere(position, radius) {
     let collided = false;
-    const tunnel = caveRadiusAt(position);
-    const x = position.x, y = position.y - 3.5;
-    const length = Math.hypot(x, y);
-    if (length > tunnel - radius) {
-      const factor = (tunnel - radius) / Math.max(length, .001);
-      position.x = x * factor; position.y = y * factor + 3.5; collided = true;
+    const section=caveSectionAt(position),rx=Math.max(1,section.xRadius-radius),ry=Math.max(1,section.yRadius-radius),x=position.x-section.centerX,y=position.y-section.centerY;
+    const normalized=Math.hypot(x/rx,y/ry);
+    if(normalized>1){position.x=section.centerX+x/normalized;position.y=section.centerY+y/normalized;collided=true;
     }
     for (const feature of this.staticFeatures) {
-      if (feature.kind === 'mouth') continue;
+      if (feature.kind === 'mouth' || feature.kind === 'cavity' || feature.kind === 'roost') continue;
       _offset.subVectors(position, feature.center);
       const minimum = radius + feature.radius;
       if (_offset.lengthSq() < minimum * minimum) {
@@ -139,6 +136,7 @@ export class SpatialQuerySystem {
     _candidate.copy(position).addScaledVector(velocity, lookAhead);
     let nearest = null; let distance = Infinity;
     for (const feature of this.staticFeatures) {
+      if(feature.kind==='mouth'||feature.kind==='cavity'||feature.kind==='roost')continue;
       const d = _candidate.distanceTo(feature.center) - feature.radius;
       if (d < distance) { distance = d; nearest = feature; }
     }

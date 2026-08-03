@@ -33,3 +33,20 @@ The two post-start menu textures are bounded first-use renderer caches; they app
 - Browsers do not expose a complete list of all AudioNodes. The test counted live scheduled oscillator/buffer-source nodes, plus the one AudioContext; short-lived gains, filters, and panners are garbage-collected but not directly enumerable.
 - Browser timer instrumentation covered `setTimeout`; the single application `requestAnimationFrame` loop is intentionally persistent and not counted as a timer.
 - Renderer memory counters reflect uploaded/live WebGL resources and may settle downward after asynchronous model loading. Boundedness across identical active-mode samples is the release criterion, not equality between unlike modes.
+
+## Milestone 6 regression rerun — 2026-08-02
+
+The complete 50 Bat / 50 Snake / 25 switch / 25 same-seed sequence was rerun after the authored environment landed, using the same Chrome binary, 1440×900 viewport, medium profile, production hero bat, and `RC-STRESS-01`. The environment is application-lifetime state, so its larger fixed baseline is expected; it must not grow per session.
+
+| Metric | Bat before → after 50 | Snake before → after 50 | After switches + replays (Bat) | Menu before → after |
+|---|---:|---:|---:|---:|
+| Scene direct children | 28 → 28 | 28 → 28 | 28 | 17 → 17 |
+| Renderer geometries | 126 → 113 | 103 → 105 | 113 | 36 → 38 |
+| Renderer textures | 29 → 29 | 26 → 26 | 29 | 23 → 26 |
+| Scene-traversed geometries | 156 → 156 | 148 → 148 | 156 | 37 → 37 |
+| Scene-traversed materials | 82 → 82 | 74 → 74 | 82 | 27 → 27 |
+| Mixers / EventBus subscriptions | 1 / 37 → 1 / 37 | 0 / 34 → 0 / 34 | 1 / 37 | 0 / 25 → 0 / 25 |
+| Echo pool / thermal pool | 24 / 0 → 24 / 0 | 0 / 112 → 0 / 112 | 24 / 0 | 0 / 0 → 0 / 0 |
+| Flock / snakes | 34 / 3 → 34 / 3 | 42 / 3 → 42 / 3 | 34 / 3 | 0 / 0 → 0 / 0 |
+
+Live scheduled audio sources varied between two and four while short ambience one-shots completed and settled to the two application-lifetime ambience sources at menu; the single toast timer remained one. Final seed identity remained `RC-STRESS-01`; no page or console errors occurred. The three menu texture additions are bounded first-use caches, consistent with the earlier measurement limitation. No unbounded Milestone 6 growth was observed.

@@ -2,18 +2,18 @@
 
 ## Test host
 
-- Date: 2026-08-01
+- Dates: RC truth run 2026-08-01; Milestone 6 regression rerun 2026-08-02
 - Machine: MacBook Air, model identifier Mac14,2
 - OS: macOS 15.6.1 (24G90), arm64
 - GPU: Apple M2 integrated GPU, 8 cores; Metal supported
 - Memory: 16 GB
-- Served from: `http://127.0.0.1:8081/`
+- Served from: `http://127.0.0.1:8081/` (RC smoke/regression/stress) and `http://127.0.0.1:8080/` (Milestone 6 capture/performance diagnostic)
 
 ## Exact browser status
 
 | Browser actually launched or inspected | Exact version/build | Viewport | Result | Scope and limitation |
 |---|---|---:|---|---|
-| Google Chrome desktop binary, headless | 150.0.7871.187 (7871.187) | 1440×900; resized to 1366×768 | Partial automated pass | Installed application binary. Startup, both control flows, pause/resume, pointer-lock loss, resize, end/replay, both opposite-side switches, return-to-menu, fullscreen, storage, direct-file guard, local-only requests, and performance/stress ran. No human listening/playability, natural completion/capture, or physical gamepad. |
+| Google Chrome desktop binary, headless | 150.0.7871.187 (7871.187) | 1440×900; resized to 1366×768; 1920×1080 diagnostic | Partial automated pass | Installed application binary. Startup, both control flows, pause/resume, pointer-lock loss, resize, forced end/replay, both opposite-side switches, return-to-menu, fullscreen, storage, direct-file guard, local-only requests, 50/50/25/25 stress, quality identity, route clearance, captures, and performance ran. The Milestone 6 rerun on 2026-08-02 produced no page errors or non-local requests. No human listening/playability, natural completion/capture, interactive performance trace, or physical gamepad. |
 | Playwright Firefox Nightly | 151.0 (15126.6.11) | 1440×900; resized to 1366×768 | Partial automated pass | Supplemental engine run. Initial run found an `AudioListener.positionX` incompatibility; rerun passed after fallback to `setPosition`/`setOrientation`. This is not Mozilla Firefox 150.0.1 stable. |
 | Mozilla Firefox desktop | 150.0.1 (15026.4.27) | — | Not directly tested | Installed, but not launched for interactive validation. Compatibility expectation is informed by the Nightly engine pass only. |
 | Safari desktop | 18.6 (20621.3.11.11.3) | — | Not directly tested | Installed, but not launched for interactive validation. Do not infer a pass from WebKit expectations. |
@@ -21,6 +21,8 @@
 | Microsoft Edge desktop | Not installed | — | Not directly tested | Chromium compatibility is expected but is not measured and is not a pass. |
 
 Headless Chrome reports a reduced UA version (`HeadlessChrome/150.0.0.0`); the exact launched application version above comes from that binary’s `Info.plist`. Firefox reported `Firefox/151.0` in-page. Firefox WebGL identified the renderer only as “Apple M1, or similar”; no more specific Firefox GPU string is claimed.
+
+Milestone 6 did not add or claim another stable Firefox/Safari browser pass. Per project direction, the existing Playwright Firefox Nightly and unavailable WebKit evidence remains supplemental and unchanged.
 
 ## Automated feature evidence
 

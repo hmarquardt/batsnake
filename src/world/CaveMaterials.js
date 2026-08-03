@@ -18,9 +18,9 @@ function limestoneTexture(size = 128, roughness = false) {
       const index = (y * size + x) * channels;
       if (roughness) data[index] = data[index + 1] = data[index + 2] = Math.round(value * 255);
       else {
-        data[index] = Math.round(value * 64);
-        data[index + 1] = Math.round(value * 78);
-        data[index + 2] = Math.round(value * 70);
+        data[index] = Math.round(164 + value * 72);
+        data[index + 1] = Math.round(170 + value * 70);
+        data[index + 2] = Math.round(166 + value * 71);
       }
       data[index + 3] = 255;
     }
@@ -69,6 +69,20 @@ function leafTexture(size = 64) {
   return texture;
 }
 
+/** Directional macro mask: vertical seep lines, horizontal bedding, or fresh fractured facets. */
+function regionalTexture(size=128,mode='seep'){
+  const data=new Uint8Array(size*size*4);
+  for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+    const u=x/size,v=y/size,n=seededNoise(x>>2,y>>2),fine=seededNoise(x,y);
+    let value=.5;
+    if(mode==='seep'){const channel=Math.pow(Math.max(0,Math.sin(u*24+n*2.2)),9);value=.16+channel*.7+(1-v)*.12+fine*.08;}
+    else if(mode==='bedding'){value=.3+.28*Math.sin(v*38+n*1.8)+n*.22;}
+    else value=.48+n*.25+Math.abs(Math.sin((u+v)*19+n))* .2;
+    const i=(y*size+x)*4,c=Math.round(THREE.MathUtils.clamp(value,0,1)*255);data[i]=data[i+1]=data[i+2]=c;data[i+3]=255;
+  }
+  const texture=new THREE.DataTexture(data,size,size,THREE.RGBAFormat);texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.repeat.set(mode==='seep'?3:5,mode==='seep'?7:4);texture.needsUpdate=true;return texture;
+}
+
 export class CaveMaterials {
   constructor() {
     this.limestoneMap = limestoneTexture();
@@ -78,15 +92,26 @@ export class CaveMaterials {
     // Formations share the limestone family but tile it at a larger scale so small meshes do not hatch.
     this.formationMap = limestoneTexture(); this.formationMap.repeat.set(2.4, 3.2);
     this.formationRoughness = limestoneTexture(128, true); this.formationRoughness.repeat.set(2.4, 3.2);
+    this.seepMap=regionalTexture(128,'seep');this.beddingMap=regionalTexture(128,'bedding');this.fractureMap=regionalTexture(128,'fracture');
     this.rock = new THREE.MeshStandardMaterial({ color: 0x59645d, map: this.limestoneMap, bumpMap: this.roughnessMap, bumpScale: .18, roughness: .9, roughnessMap: this.roughnessMap, metalness: 0.01, side: THREE.BackSide, vertexColors: true });
     this.formation = new THREE.MeshStandardMaterial({ color: 0x58625b, map: this.formationMap, bumpMap: this.formationRoughness, bumpScale: .15, roughness: 0.86, roughnessMap: this.formationRoughness, metalness: 0.02 });
-    this.wet = new THREE.MeshPhysicalMaterial({ color: 0x35423c, map: this.formationMap, bumpMap: this.formationRoughness, bumpScale: .11, roughness: 0.6, roughnessMap: this.formationRoughness, metalness: 0.02, clearcoat: 0.16, clearcoatRoughness: 0.5 });
+    this.wet = new THREE.MeshPhysicalMaterial({ color: 0x3d514b, map: this.formationMap, bumpMap: this.seepMap, bumpScale: .09, roughness: .48, roughnessMap: this.seepMap, metalness: 0.01, clearcoat: .3, clearcoatRoughness: .34 });
+    this.dry = new THREE.MeshStandardMaterial({color:0x687069,map:this.formationMap,bumpMap:this.beddingMap,bumpScale:.1,roughness:.94,roughnessMap:this.beddingMap});
+    this.fracture = new THREE.MeshStandardMaterial({color:0x7b7c70,map:this.formationMap,bumpMap:this.fractureMap,bumpScale:.14,roughness:.88,roughnessMap:this.fractureMap});
+    this.damp = new THREE.MeshPhysicalMaterial({color:0x354943,map:this.formationMap,bumpMap:this.seepMap,bumpScale:.08,roughness:.54,roughnessMap:this.seepMap,clearcoat:.2,clearcoatRoughness:.42});
+    this.algae = new THREE.MeshStandardMaterial({color:0x28392e,map:this.formationMap,bumpMap:this.formationRoughness,bumpScale:.07,roughness:.82});
+    this.rubble = new THREE.MeshStandardMaterial({color:0x5a5d56,map:this.formationMap,bumpMap:this.fractureMap,bumpScale:.12,roughness:.96});
     this.guano = new THREE.MeshStandardMaterial({ color: 0x241c14, roughness: 1, transparent: true, alphaMap: this.blotchMap, depthWrite: false });
     this.mineral = new THREE.MeshBasicMaterial({color:0xa5aa94,transparent:true,opacity:.12,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
     this.iron = new THREE.MeshBasicMaterial({color:0x7d6b52,transparent:true,opacity:.1,depthWrite:false,side:THREE.DoubleSide});
     this.vegetation = new THREE.MeshBasicMaterial({color:0x04080a,alphaMap:this.leafMap,transparent:true,side:THREE.DoubleSide,depthWrite:false});
-    this.normalColors={rock:new THREE.Color(0x59645d),formation:new THREE.Color(0x58625b),wet:new THREE.Color(0x35423c),mineral:new THREE.Color(0xa5aa94)};
-    this.thermalColors={rock:new THREE.Color(0x080a09),formation:new THREE.Color(0x090b0a),wet:new THREE.Color(0x111813),mineral:new THREE.Color(0x23322b)};
+    this.exteriorVegetation=new THREE.MeshStandardMaterial({color:0x07110d,roughness:1,side:THREE.DoubleSide});
+    this.terrain=new THREE.MeshStandardMaterial({color:0x111914,roughness:1});
+    this.water=new THREE.MeshBasicMaterial({color:0x48645e,transparent:true,opacity:.08,depthWrite:false,side:THREE.DoubleSide});
+    this.waterStreak=new THREE.MeshBasicMaterial({color:0x45625b,transparent:true,opacity:.05,depthWrite:false,side:THREE.DoubleSide});
+    this.normalColors={rock:new THREE.Color(0x87928a),formation:new THREE.Color(0x7c877f),wet:new THREE.Color(0x526961),dry:new THREE.Color(0x90988f),fracture:new THREE.Color(0xa2a193),damp:new THREE.Color(0x4c625b),algae:new THREE.Color(0x405749),rubble:new THREE.Color(0x7a7c73),mineral:new THREE.Color(0xa5aa94),terrain:new THREE.Color(0x111914)};
+    this.thermalColors={rock:new THREE.Color(0x080a09),formation:new THREE.Color(0x090b0a),wet:new THREE.Color(0x0d1411),dry:new THREE.Color(0x0a0c0b),fracture:new THREE.Color(0x0d0f0d),damp:new THREE.Color(0x101813),algae:new THREE.Color(0x07100a),rubble:new THREE.Color(0x090b09),mineral:new THREE.Color(0x23322b),terrain:new THREE.Color(0x030504)};
+    for(const key of ['rock','formation','wet','dry','fracture','damp','algae','rubble','terrain'])this[key].color.copy(this.normalColors[key]);
     this.normalVegetation=new THREE.Color(0x04080a);this.thermalVegetation=new THREE.Color(0x010202);
 
     this.echoUniforms = {
@@ -187,5 +212,5 @@ export class CaveMaterials {
     this.echoUniforms.surfaceDetail.value = profile.echoSurfaceDetail;
   }
 
-  setThermalBlend(blend){this.rock.color.copy(this.normalColors.rock).lerp(this.thermalColors.rock,blend);this.formation.color.copy(this.normalColors.formation).lerp(this.thermalColors.formation,blend);this.wet.color.copy(this.normalColors.wet).lerp(this.thermalColors.wet,blend);this.mineral.color.copy(this.normalColors.mineral).lerp(this.thermalColors.mineral,blend);this.mineral.opacity=THREE.MathUtils.lerp(.12,.035,blend);this.iron.opacity=THREE.MathUtils.lerp(.1,.02,blend);this.vegetation.color.copy(this.normalVegetation).lerp(this.thermalVegetation,blend);}
+  setThermalBlend(blend){for(const key of ['rock','formation','wet','dry','fracture','damp','algae','rubble','terrain'])this[key].color.copy(this.normalColors[key]).lerp(this.thermalColors[key],blend);this.mineral.color.copy(this.normalColors.mineral).lerp(this.thermalColors.mineral,blend);this.mineral.opacity=THREE.MathUtils.lerp(.12,.035,blend);this.iron.opacity=THREE.MathUtils.lerp(.1,.02,blend);this.vegetation.color.copy(this.normalVegetation).lerp(this.thermalVegetation,blend);this.exteriorVegetation.color.copy(this.normalVegetation).lerp(this.thermalVegetation,blend);this.water.opacity=THREE.MathUtils.lerp(.08,.018,blend);this.waterStreak.opacity=THREE.MathUtils.lerp(.05,.008,blend);}
 }

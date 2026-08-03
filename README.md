@@ -50,11 +50,19 @@ Capture the difficulty-specific target before the stream ends. Strikes have char
 
 Common dual-stick gamepads are optional. Bat: sticks steer/look, south/right shoulder flaps, left trigger dives, left shoulder brakes, and east calls. Snake: right stick aims, left stick repositions, left trigger focuses, right trigger strikes, shoulders switch, and west toggles thermal. Settings include dead zone, sensitivity, invert Y, enable/disable, and contextual HUD labels.
 
+## Milestone 6: The Cave
+
+- The single flight line now has an authored geographic identity: a ribbed Roost Vault and Guano Shelf lead through Fang Ceiling and Split Column, open into Bell Chamber and Curtain Wall, compress at Broken Pillar, then approach the Moon Gallery and asymmetric Moon Gate.
+- Limestone, fractures, flowstone, draperies, rubble, guano, seep paths, damp pools, algae, roost silhouettes, and boa supports follow regional environmental logic rather than uniform scatter.
+- The mouth frames a bounded local night exterior with moon, haze, mogote silhouettes, tropical vegetation, moving leaves, and insects. It remains scenery for the existing escape, not a second level.
+- Echo returns distinguish cavities, columns, shelves, draperies, rubble, roost biology, and the open mouth. Thermal keeps the geology cool while the colony and flight stream remain dominant.
+- Cave geometry, generated textures, shaders, particles, and ambience are original project source. Runtime stays offline and build-free.
+
 ## Milestone 4: Creature Fidelity
 
 - A deterministic, project-created skinned hero bat replaces the pipeline pilot: six blended states, anatomical finger/membrane structure, regional heat, organic echo response, and restrained first-person placement. The procedural wing rig remains a complete fallback.
 - Boas retain the Milestone 3 controller and strike interfaces while gaining a continuous muscular body, shaped head/jaw, eyes, pit rows, tongue, breathing, preparation compression, contact attachment, and distinct recovery presentation.
-- Cave layout and collision remain unchanged. Deterministic limestone textures, displaced silhouettes, batched formations, localized wetness, mineral/guano residue, entrance vegetation, and ambush-zone identities reduce primitive repetition.
+- The then-current cave layout and collision remained unchanged during Milestone 4; Milestone 6 subsequently authored the environment around the same routes and anchors.
 - Echolocation, thermal focus, procedural audio, event-tied camera response, and optional gamepad vibration were refined without adding a gameplay subsystem or runtime network dependency.
 - Low, medium, and high now simulate identical seeded encounters. They vary only presentation budgets; medium remains the target profile.
 
@@ -110,7 +118,9 @@ Low, medium, and high profiles change pixel ratio, shadows, bloom, particles, pu
 
 ## Captures
 
-The final local, uncommitted Milestone 4 set lives in `captures/milestone-4/`:
+The local, uncommitted Milestone 6 comparison set lives in `captures/milestone-6/`. It contains `before/` reference frames and twenty `after/` views covering the mouth, roost, landmarks, routes, wetness, ecology, echo, thermal, both animal perspectives, peak departure, menu, and quality profiles. The directory remains gitignored and is not a runtime dependency.
+
+The earlier Milestone 4 set lives in `captures/milestone-4/`:
 
 1. Run `python3 -m http.server 8080`, open the game at 1440×900 or 1920×1080, and create `captures/` if needed. The directory is gitignored.
 2. Use fixed seed `M4-MOON-RUN-4271` and capture the twenty required menu, bat anatomy, traffic, echo, thermal, strike, contact, escape, report, and quality moments.
@@ -129,4 +139,4 @@ The first-run Bat movement, event identity, persistent Gameplay reference, and r
 
 ## Known limitations
 
-The boa and cave are deliberately bounded procedural production treatments rather than external scan assets. Echo travel fronts can still show bands across nearby faceted surfaces. Determinism covers encounter structure and fixed-step AI decisions, not cross-browser floating-point-perfect input replay, audio noise, or cosmetic particles. See [ENCOUNTER_DESIGN.md](docs/ENCOUNTER_DESIGN.md), [MODEL_INTEGRATION.md](docs/MODEL_INTEGRATION.md), [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), and [NEXT_STEPS.md](docs/NEXT_STEPS.md).
+The boa remains a bounded procedural production treatment, and the cave is a code-authored environment rather than an external scan. Echo travel fronts can still show bands across nearby faceted surfaces. Determinism covers encounter structure and fixed-step AI decisions, not cross-browser floating-point-perfect input replay, audio noise, or cosmetic particles. See [ENCOUNTER_DESIGN.md](docs/ENCOUNTER_DESIGN.md), [MODEL_INTEGRATION.md](docs/MODEL_INTEGRATION.md), [SENSORY_RENDERING.md](docs/SENSORY_RENDERING.md), and [NEXT_STEPS.md](docs/NEXT_STEPS.md).

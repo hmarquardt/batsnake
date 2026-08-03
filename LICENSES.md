@@ -21,6 +21,8 @@ All current cave geometry, creature placeholder geometry, shaders, particle syst
 
 Milestone 4 boa geometry, scale-relief pixels, cave displacement, limestone/roughness pixels, guano/leaf alpha masks, mineral/vegetation batches, shaders, and procedural audio are authored in project source (`SnakeRig.js`, `CaveGenerator.js`, `CaveMaterials.js`, and `AudioManager.js`). They are deterministic or runtime-synthesized, contain no retrieved bytes, and are covered by the repository MIT license. No external modeling, texture, recording, or generative-media service was used.
 
+Milestone 6 extends that original project-created set with the authored variable cave shell, named limestone formations, collision proxies, roost silhouettes, guano beds, seep/bedding/fracture textures, pooled water detail, bounded exterior terrain/vegetation/sky, atmospheric motion, and region-aware procedural ambience. All are expressed in repository source and generated at runtime from local code. No external asset, remotely hosted byte, field recording, scan, stock texture, or generative-media output was introduced.
+
 ## Attribution checklist for future assets
 
 For each added file, record: asset name, author/owner, exact source URL, exact license/version, retrieval date, local path, required attribution wording, commercial-use permission, modification permission, redistribution constraints, and whether the local file was modified. Preserve a copy of license/notice text when required. Share-alike or non-commercial material requires explicit project approval before inclusion.

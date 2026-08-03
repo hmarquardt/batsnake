@@ -40,8 +40,9 @@ Batsnake is a first-person wildlife *simulation game* — not a biology simulato
 
 ## Cave environment
 
-- **Inspired by**: Tropical limestone caves with columns, flowstone, guano deposits, and entrance vegetation.
-- **Simplified for play**: The cave is a procedurally authored chamber, not a scanned real cave. Flora, mineral deposits, and acoustic properties are artistic treatments.
+- **Inspired by**: Tropical Cuban limestone caves with dissolved chambers, fractures, stalactites/stalagmites, columns, flowstone, draperies, breakdown rubble, guano deposits, humid entrances, and clustered bat roosts.
+- **Environmental logic**: The authored cave places guano below the main colony, wet flowstone and drips along a few seep paths, algae and plant matter near the mouth, and boa supports beside flight corridors. These relationships are plausible composition rules, not documentation of one surveyed cave.
+- **Simplified for play**: The cave is a fictional authored chamber, not a scan or reconstruction of a named Cuban site. The 96 low-detail resting silhouettes represent a much larger colony; their depletion is synchronized to the compressed encounter director. Exterior flora, water frequency, mineral color, acoustic returns, thermal contrast, and named landmarks are artistic treatments.
 
 ## General disclaimer
 

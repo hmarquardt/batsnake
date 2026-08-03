@@ -14,7 +14,7 @@ Render resolution, shadow state, bloom, sensory persistence, and particle draw r
 
 ## Current costs
 
-The cave shell and echo shell share one moderately tessellated tube geometry. Repeated wall rocks, three eroded formation profiles, guano, mineral streaks, vegetation, flock bodies, and heat regions are instanced. Each boa uses one 560-vertex / 1,092-triangle continuously deformed body shared by its normal, heat, and echo presentations, plus bounded head/facial meshes and three coil loops. Flock separation remains O(n²), acceptable at the fixed slice counts but still the clearest CPU scaling limit. Bloom adds multiple full-screen passes. Shadowed instanced cave detail and high pixel ratio are the principal GPU costs.
+The cave shell and echo shell share one 144×32 variable elliptical geometry. Repeated breakdown, ceiling ribs, fangs, guano, roost silhouettes, vegetation, and exterior depth cues are instanced; distinctive columns, shelves, drapery, fallen sections, and the mouth use a bounded static set. Dormant environment echo meshes are culled until a call has active acoustic memory. Each boa uses one 560-vertex / 1,092-triangle continuously deformed body shared by its normal, heat, and echo presentations, plus bounded head/facial meshes and three coil loops. Flock separation remains O(n²), acceptable at the fixed slice counts but still the clearest CPU scaling limit. Bloom adds multiple full-screen passes. Shadowed authored cave detail and high pixel ratio are the principal GPU costs.
 
 The milestone software-WebGL capture run at 756×414 reported 81 accumulated composer calls, about 92.8k triangles, 19 textures, and two composer render targets in the high-profile bat scene. At this diagnostic resolution, the overlay held 60 FPS; these numbers are for regression comparison, not a discrete-GPU benchmark. Isolated sensory updates are normally below timer resolution and are displayed separately from total render time.
 
@@ -33,6 +33,22 @@ Enable **Performance overlay** in Settings. It reports rolling FPS/frame time, c
 7. Pool impact rings and wake sprites after production effect counts grow.
 
 The game avoids per-frame geometry/material/texture allocation, remote resources, unbounded emitters, and high-detail mesh collision. Echo clusters and thermal history use fixed pools; shared query records and creature matrices are reused. The O(n²) flock neighbor loop and full-scene heat-emitter traversal remain the largest CPU cleanup opportunities.
+
+## Milestone 6 environment diagnostic — 2026-08-02
+
+The installed Google Chrome 150.0.7871.187 binary ran headlessly on macOS 15.6.1 (24G90), MacBook Air Mac14,2, Apple M2 8-core GPU / ANGLE Metal, at 1920×1080 and medium quality. The optional hero GLB was disabled to isolate the authored environment; each segment sampled 180 animation frames. Times are browser CPU and render-submit duration, not GPU timing.
+
+| Segment | Frame median / p95 / max | JS update p95 / max | Fixed p95 / max | Render submit p95 / max | Long frames (>50 ms) |
+|---|---:|---:|---:|---:|---:|
+| Warm Bat, no call | 33.3 / 34.3 / 34.5 ms | 0.3 / 1.0 ms | 0.6 / 1.0 ms | 3.1 / 4.6 ms | 0 |
+| First deep echo window | 33.3 / 50.0 / 83.4 ms | 0.4 / 0.8 ms | 0.8 / 1.3 ms | 2.3 / 91.4 ms | 5 |
+| Warm focused thermal Snake | 16.7 / 17.6 / 17.8 ms | 0.2 / 0.3 ms | <0.1 / 0.1 ms | 1.9 / 2.6 ms | 0 |
+
+The deep-call emission function measured 1.7 ms and the thermal toggle 0.3 ms. A normal Bat frame reported 273 accumulated composer calls / 114,572 triangles / 26 renderer textures; the warm thermal Snake frame reported 316 / 120,212 / 26. Dormant authored echo meshes are culled outside an active call; 32 bounded echo meshes become eligible during acoustic memory. The scene owns 41 solid obstacle proxies and 52 authored reflection landmarks.
+
+The steady CPU-side p95 values remain below 16.7 ms, but the warm Bat headless cadence did not sustain 60 FPS and first deep echo still caused a large one-time submit spike. Therefore Milestone 6 does **not** turn the RC performance gate into a pass. An interactive trace and explicit first-use-spike decision remain required. The browser exposed no GPU timer, so no GPU duration or performance headroom is claimed.
+
+A separate same-seed construction check produced identical low/medium/high hashes for Bat (`fd9da6…`, 34 flock / 3 snakes) and Snake (`51ecb1…`, 42 flock / 3 snakes). Quality continues to change presentation only.
 
 ## Milestone 3 budgets and profiling
 

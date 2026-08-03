@@ -1,5 +1,14 @@
 # Changelog
 
+## Milestone 6 — The Cave
+
+- Replaced the uniform tube-and-rock treatment with one authored cave sequence: Roost Vault, Guano Shelf, Fang Ceiling, Split Column, Bell Chamber, Curtain Wall, Broken Pillar, Moon Gallery, and Moon Gate.
+- Added regionally clustered limestone morphology, a bounded Cuban exterior glimpse, locally generated surface variation, wet seep zones, guano ecology, a 96-silhouette roost colony that depletes with departure progress, and physically supported boa posts.
+- Made fog, dust, droplets, entrance leaves, insects, and procedural ambience respond to cave region or existing airflow/director state. No gameplay system, runtime asset request, or external byte was added.
+- Reconciled variable elliptical shell collision with echolocation wall sampling; separated reflective cavity/roost volumes from solid collision; refined compound landmark proxies while retaining all five routes and three snake anchors.
+- Cull dormant authored echo meshes outside a call. At 1920×1080 medium, normal Bat presentation measured 273 accumulated composer calls / 114,572 triangles and thermal Snake measured 316 / 120,212 in the final diagnostic; these are diagnostic counters, not a 60 FPS certification.
+- Reran Chrome lifecycle/opposite-perspective smoke, 13-check regression, 50/50/25/25 resource stress, same-seed quality identity, local-only request audit, JavaScript parsing, and vendor verification. Human RC gates remain blocked exactly as documented in `docs/RELEASE_CHECKLIST.md`.
+
 ## 0.5.0-rc1 — Release Candidate
 
 Release verification currently reports **RC STATUS: BLOCKED**. See `docs/RELEASE_CHECKLIST.md`; the candidate is not ready to tag until the listed human, multi-seed, stable-browser, gamepad, and performance gates are completed.

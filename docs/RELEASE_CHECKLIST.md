@@ -1,6 +1,6 @@
 # Release checklist — 0.5.0-rc1
 
-This is the authoritative release gate. A checked item has evidence from this repository state (`cd77ed5` plus the verification fixes recorded in `CHANGELOG.md`). Partial automation is not a pass for a gate that calls for human judgment or physical hardware.
+This is the authoritative release gate. A checked item has evidence from the reconciled RC baseline plus the Milestone 6 regression recorded in `CHANGELOG.md`. Partial automation is not a pass for a gate that calls for human judgment or physical hardware. Continuing environment development did not waive or complete any unresolved RC gate.
 
 ## Pre-release
 
@@ -12,13 +12,13 @@ This is the authoritative release gate. A checked item has evidence from this re
 - [ ] Pause/focus/restart behavior is safe. Pause/resume, pointer-lock loss, restart, resize, switch, and return-to-menu passed automation. Actual OS focus loss and accidental release behavior were not directly tested.
 - [x] Repeated sessions do not leak resources. The exact 50 Bat restarts, 50 Snake restarts, 25 mode switches, and 25 same-seed replays completed after fixing undisposed skeleton bone textures. Active-mode counts were bounded; see `RESOURCE_STRESS_TEST.md`.
 - [x] Chrome, Edge, Firefox, and Safari status is documented exactly in `BROWSER_MATRIX.md`, including untested browsers and supplemental engine coverage.
-- [ ] Medium performance is release-ready at 1920×1080. Prior 16.7 ms/vsync figures remain historical. The current installed-Chrome headless run measured low p95 CPU/submit time but did not sustain 60 FPS and exposed first-use 54.1 ms echo and 114.1 ms thermal render spikes; see `PERFORMANCE.md`.
+- [ ] Medium performance is release-ready at 1920×1080. Prior 16.7 ms/vsync figures remain historical. The RC diagnostic exposed first-use sensory spikes; the 2026-08-02 environment rerun again measured low p95 CPU/submit time but inconsistent headless cadence and a 91.4 ms first deep-echo submit spike. No interactive trace or GPU timing exists; see `PERFORMANCE.md`.
 - [ ] Public README is understandable immediately. Its factual browser/offline claims were reconciled, but no new-reader human review was performed.
 - [x] Release metadata exists: `CHANGELOG.md`, this checklist, browser/performance records, and the Settings version string are present.
 - [x] Version is identified internally as `0.5.0-rc1` in README and Settings.
 - [x] No npm or build step has been introduced. No package manifest or lockfile exists; runtime remains direct ES modules/import maps.
-- [x] Offline runtime remains intact. The final Chrome smoke made 90 local-origin requests and zero non-local requests.
-- [x] Vendor verification passes. `python3 tools/verify-vendor.py` passed all 19 files across both pinned dependencies on 2026-08-01.
+- [x] Offline runtime remains intact. The 2026-08-02 Chrome smoke again made 90 local-origin requests and zero non-local requests; the environment diagnostic also observed zero external requests.
+- [x] Vendor verification passes. `python3 tools/verify-vendor.py` passed all 19 files across both pinned dependencies on 2026-08-02.
 
 ## Browser validation
 
@@ -46,6 +46,19 @@ Exact machine, GPU, viewport, date, coverage, and limitations are in `BROWSER_MA
 - Full 50/50/25/25 resource stress sequence — pass after the bone-texture disposal fix; see `RESOURCE_STRESS_TEST.md`.
 - Installed Chrome 1920×1080 medium performance diagnostics — measured; see `PERFORMANCE.md`.
 - Direct-file, fullscreen, and localStorage checks in installed Chrome — pass with limitations above.
+
+## Milestone 6 regression evidence executed on 2026-08-02
+
+- `node --check` for every `src/**/*.js` file and `python3 tools/verify-vendor.py` — pass.
+- Installed Chrome 150.0.7871.187 lifecycle/opposite-perspective smoke — pass with forced outcomes; no errors, 90 local requests, zero non-local.
+- Thirteen-check Chrome regression — pass, including all modes/difficulties starting, bounded restart disposal, semantic input, fallback assets, audio denial, and local-only operation.
+- Full 50/50/25/25 resource sequence — pass with the larger fixed cave baseline bounded; see `RESOURCE_STRESS_TEST.md`.
+- Same-seed low/medium/high construction snapshots — identical within each mode (`fd9da6…` Bat, `51ecb1…` Snake).
+- Five routes × 99 collision samples — four centerlines clear; two small Shelf/Guano brush samples recorded, no route blocked.
+- Twenty fixed-camera Milestone 6 after views plus before references — captured locally under gitignored `captures/milestone-6/`.
+- Installed Chrome 1920×1080 medium environment diagnostic — measured, not a 60 FPS pass; see `PERFORMANCE.md`.
+
+These automated environment results do not complete the human audio, first-run/HUD, strike-learning, difficulty, stable-browser, physical-gamepad, or interactive-performance gates below.
 
 ## Release decision
 
