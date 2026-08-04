@@ -1,5 +1,23 @@
 # Resource stress test — 0.5.0-rc1
 
+## Milestone 7 rerun — 2026-08-03
+
+The exact 50 Bat restarts, 50 Snake restarts, 25 Bat/Snake switches, and 25 same-seed Bat replays were rerun in installed Chrome 150.0.7871.187 after sensory prewarm and boa changes. There were no browser errors and the replay seed remained `RC-STRESS-01`.
+
+| Snapshot | Scene children | Renderer geometries | Renderer textures | Scene geometries | Materials | Mixers | Event subscriptions | Echo pool | Thermal pool | Flock / snakes |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Bat before | 28 | 139 | 29 | 168 | 82 | 1 | 37 | 24 | 0 | 34 / 3 |
+| Bat after 50 | 28 | 126 | 29 | 168 | 82 | 1 | 37 | 24 | 0 | 34 / 3 |
+| Snake before | 28 | 117 | 26 | 160 | 74 | 0 | 34 | 0 | 112 | 42 / 3 |
+| Snake after 50 | 28 | 115 | 26 | 160 | 74 | 0 | 34 | 0 | 112 | 42 / 3 |
+| After 25 switches (Bat) | 28 | 126 | 29 | 168 | 82 | 1 | 37 | 24 | 0 | 34 / 3 |
+| After 25 same-seed replays | 28 | 126 | 29 | 168 | 82 | 1 | 37 | 24 | 0 | 34 / 3 |
+| Menu after | 17 | 39 | 26 | 37 | 27 | 0 | 25 | 0 | 0 | 0 / 0 |
+
+The shared echo pulse geometry/material is an intentional application-lifetime cache. Mode-owned return/trail pools, animal materials, subscriptions, and mixers remained at their mode baselines. Renderer geometry counts decreased after warm disposal/reuse rather than growing. AudioContext remained one; live sources were two to three and the one outstanding timer was the bounded ambience timer already present in the baseline.
+
+## RC baseline — 2026-08-01
+
 Executed 2026-08-01 on the host documented in `BROWSER_MATRIX.md`, using the installed Google Chrome 150.0.7871.187 binary headlessly at 1440×900, medium quality, production hero bat enabled, and fixed seed `RC-STRESS-01`.
 
 The exact sequence was 50 Bat same-seed restarts, 50 Snake same-seed restarts, 25 Bat/Snake mode switches, and 25 additional same-seed replays. Instrumentation sampled Three.js renderer memory, scene traversal, live mode fields, the application EventBus, outstanding `setTimeout` handles, and live scheduled Web Audio source nodes.

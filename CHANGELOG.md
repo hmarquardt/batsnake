@@ -1,5 +1,14 @@
 # Changelog
 
+## Milestone 7 — Sensory Performance and Predator Fidelity
+
+- Attributed the first deep-echo hitch to deferred compilation/upload of the per-call pulse sphere and dormant authored echo renderables; bloom, audio, and activation JavaScript were not the primary costs.
+- Replaced per-call pulse geometry/material churn with one bounded application-lifetime resource and added an exact-object loading prewarm with a disposable 2×2 target. The loading cost measured 73.7 ms; post-fix quick/deep/focus/biological submits were 3.0 ms or less, while fresh Snake-first thermal measured 17.8 ms and remained under the 33 ms target.
+- Added per-landmark echo character for Roost Vault, Guano Shelf, Fang Ceiling, Split Column, Bell Chamber/Sentinel, Curtain Wall, Broken Pillar, Moon Gallery, and Moon Gate, including dense-tip suppression and wet/cavity memory differences.
+- Retained the procedural boa after an explicit GLB comparison. Added a tapered neck, rostral plane, paired mandibles, four support-wrapped reactive coils, stronger anchor contact, and improved capture attachment while leaving strike gameplay authoritative.
+- Added optional program/material/geometry/pool/prewarm diagnostics to the performance overlay and documented sensory attribution, startup tradeoff, and the boa asset decision.
+- Reran the 13-check Chrome regression, Chrome lifecycle/opposite-perspective smoke, 50/50/25/25 stress sequence, quality simulation hashes, syntax checks, local-only request audit, and vendor verification. RC human validation remains blocked.
+
 ## Milestone 6 — The Cave
 
 - Replaced the uniform tube-and-rock treatment with one authored cave sequence: Roost Vault, Guano Shelf, Fang Ceiling, Split Column, Bell Chamber, Curtain Wall, Broken Pillar, Moon Gallery, and Moon Gate.

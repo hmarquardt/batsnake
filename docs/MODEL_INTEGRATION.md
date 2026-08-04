@@ -43,6 +43,6 @@ Integrated bounds are 0.4194 × 0.0606 × 0.2029 m at runtime scale, Y-up and +Z
 
 For a bat, normalize to meters/Y-up/+Z, retain center-of-mass root, export named head/body/wing/capture nodes, provide semantic clips listed in `ASSET_MANIFEST.md`, then extend metadata rather than changing the controller. Register torso/head/root/membrane heat separately and an organic echo root. Test all flight states, sensory passes, quality levels, missing parts, disposal, and fallback.
 
-For a future boa, the same adapter concept consumes anchor, head/direction, tension, strike state, awareness, and capture state. The GLB must expose mouth/jaw, head heat pits, body heat/echo regions, capture transform, and a spline/skinning control seam. `SnakeController`, `SnakeStrike`, and `SnakeMemory` remain authoritative.
+Milestone 7 retained the procedural boa as the production path; see `BOA_ASSET_DECISION.md`. If a future reviewed GLB demonstrably exceeds it, the same adapter concept must consume anchor, head/direction, tension, strike state, awareness, and capture state. It must expose mouth/jaw, head heat pits, body heat/echo regions, capture transform, and a spline/skinning control seam. `SnakeController`, `SnakeStrike`, and `SnakeMemory` remain authoritative.
 
 Before any external asset is copied into the repository, update `LICENSES.md` with author, exact source/version, required attribution, commercial use, modification, redistribution, retrieval date, and modifications. Unknown-license files are rejected.

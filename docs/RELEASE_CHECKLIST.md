@@ -1,6 +1,6 @@
 # Release checklist — 0.5.0-rc1
 
-This is the authoritative release gate. A checked item has evidence from the reconciled RC baseline plus the Milestone 6 regression recorded in `CHANGELOG.md`. Partial automation is not a pass for a gate that calls for human judgment or physical hardware. Continuing environment development did not waive or complete any unresolved RC gate.
+This is the authoritative release gate. A checked item has evidence from the reconciled RC baseline plus the Milestone 6/7 regressions recorded in `CHANGELOG.md`. Partial automation is not a pass for a gate that calls for human judgment or physical hardware. Continuing presentation development did not waive or complete any unresolved RC gate.
 
 ## Pre-release
 
@@ -12,7 +12,7 @@ This is the authoritative release gate. A checked item has evidence from the rec
 - [ ] Pause/focus/restart behavior is safe. Pause/resume, pointer-lock loss, restart, resize, switch, and return-to-menu passed automation. Actual OS focus loss and accidental release behavior were not directly tested.
 - [x] Repeated sessions do not leak resources. The exact 50 Bat restarts, 50 Snake restarts, 25 mode switches, and 25 same-seed replays completed after fixing undisposed skeleton bone textures. Active-mode counts were bounded; see `RESOURCE_STRESS_TEST.md`.
 - [x] Chrome, Edge, Firefox, and Safari status is documented exactly in `BROWSER_MATRIX.md`, including untested browsers and supplemental engine coverage.
-- [ ] Medium performance is release-ready at 1920×1080. Prior 16.7 ms/vsync figures remain historical. The RC diagnostic exposed first-use sensory spikes; the 2026-08-02 environment rerun again measured low p95 CPU/submit time but inconsistent headless cadence and a 91.4 ms first deep-echo submit spike. No interactive trace or GPU timing exists; see `PERFORMANCE.md`.
+- [ ] Medium performance is release-ready at 1920×1080. Milestone 7 attributed and removed the first-use sensory submit spike (post-fix sensory submit maxima were 3.0 ms or less at 1440×900 Medium), but no interactive 1920×1080 trace or GPU timing exists and headless cadence cannot certify sustained presentation; see `PERFORMANCE.md` and `SENSORY_PERFORMANCE.md`.
 - [ ] Public README is understandable immediately. Its factual browser/offline claims were reconciled, but no new-reader human review was performed.
 - [x] Release metadata exists: `CHANGELOG.md`, this checklist, browser/performance records, and the Settings version string are present.
 - [x] Version is identified internally as `0.5.0-rc1` in README and Settings.
@@ -60,6 +60,17 @@ Exact machine, GPU, viewport, date, coverage, and limitations are in `BROWSER_MA
 
 These automated environment results do not complete the human audio, first-run/HUD, strike-learning, difficulty, stable-browser, physical-gamepad, or interactive-performance gates below.
 
+## Milestone 7 regression evidence executed on 2026-08-03
+
+- First-use attribution isolated pulse-shader and dormant-cave costs; exact-object loading prewarm reduced first quick/deep submit maxima to 3.0 ms or less at 1440×900 Medium. Fresh Snake-first thermal measured 17.8 ms; second thermal, focus, and biological return measured 3.0 ms or less. All stayed below 33 ms; see `SENSORY_PERFORMANCE.md`.
+- Installed Chrome 150.0.7871.187 lifecycle and both-direction opposite-perspective smoke passed: seed, Night Flight difficulty, and Broad Stream profile persisted; thermal, focus, strike, call, FOV, HUD, onboarding class, and audio transient state did not leak. Ninety requests were local and zero were non-local.
+- Thirteen-check Chrome regression passed with no page/console exceptions or remote requests.
+- Full 50/50/25/25 resource sequence passed with bounded mode resources and the application-lifetime prewarmed pulse cache; see `RESOURCE_STRESS_TEST.md`.
+- Same-seed low/medium/high construction hashes remained identical (`fd9da6…` Bat, `51ecb1…` Snake).
+- JavaScript syntax and pinned-vendor verification passed.
+
+These results resolve the avoidable sensory hitch and preserve lifecycle correctness. They do not complete any human listening, playability, strike-learning, difficulty, stable-browser, physical-gamepad, or interactive-performance checkbox.
+
 ## Release decision
 
 **RC STATUS: BLOCKED**
@@ -71,6 +82,6 @@ Concrete blockers:
 3. Complete and record 20 player-controlled Night Flight strikes with the requested learning-curve fields.
 4. Complete and record five seeds per mode per difficulty (30 sessions) with individual-seed outcomes.
 5. Complete direct stable-browser coverage on the browsers actually being claimed, plus physical gamepad coverage where supported.
-6. Resolve or explicitly accept the first-use sensory shader spikes with an interactive performance trace; the current headless run is insufficient to certify 60 FPS.
+6. Complete an interactive 1920×1080 performance trace for sustained presentation and GPU/headroom judgment. The avoidable first-use sensory spike is fixed, but headless submit measurements alone cannot pass this release gate.
 
 Do not tag or publish `v0.5.0-rc1` while this status is BLOCKED.

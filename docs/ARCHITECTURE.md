@@ -30,6 +30,8 @@ Rapier holds deliberately simple static chamber volumes. Player flight uses a ma
 
 `EcholocationSystem` emits a quick or deep `EcholocationPulse` with world origin, radius, duration, range, and acoustic-memory envelope. Shared cave-material history uniforms produce the moving band, recent passed-surface trace, procedural ridges, and grazing contours. The shared spatial service selects delayed hard returns from walls, floor/shelf, columns, mouth, and nearby organic responders. The shell remains a readable wavefront rather than a brightness switch; this is an authored reflection model, not multi-bounce acoustic simulation.
 
+`App.init()` owns one bounded echolocation pulse geometry/material for the application lifetime. Before menu, an echo-only loading pass compiles the selected profile's actual authored echo renderables and submits them to a temporary 2×2 target, then restores visibility/uniforms and disposes the target. Calls therefore mutate pooled state rather than constructing shader materials or geometries. This prewarm never creates a mode or advances encounter state; diagnostics are exposed through `App.sensoryDiagnostics` and the optional performance overlay.
+
 `ThermalVisionSystem` toggles registered regional heat meshes that remain in the normal depth graph, so walls still occlude bats. Torso, head, root, membrane, snake head, and snake body retain distinct values. Fog/background move toward cool near-black while a bounded profile-specific world-space history retains motion direction. Focus adjusts local/peripheral clarity without selecting a target. It remains separate from snake control; accessibility-through-wall highlighting is intentionally absent.
 
 ## Rendering
@@ -72,7 +74,7 @@ The overlay adds seed, phase, route occupancy, panic count, average snake alertn
 
 `ModelAdapter` now skeleton-clones the project-created hero bat, validates node/clip/resource budgets before hiding the fallback, owns one mixer, and performs state-transition cross-fades. Load generations prevent late asynchronous completion from attaching after disposal. Captured prey uses the same adapter through a guarded factory; repeated captures restart the one-shot clip. Controller state remains the only gameplay source.
 
-`SnakeRig` remains procedural by design: three controllers each feed one 40×14 dynamically deformed body geometry shared by normal, echo, and heat meshes. Head, jaw, pits, tongue, coils, captured attachment, identity treatment, and recovery shapes are presentation children. Miss classification occurs only after the unchanged `SnakeStrike` result and cannot change collision or timing.
+`SnakeRig` remains procedural by measured design: three controllers each feed one 40×14 dynamically deformed body geometry shared by normal, echo, and heat meshes. A tapered neck, rostral plane, paired mandibles, pits, tongue, four anchor-offset coils, captured attachment, identity treatment, and recovery shapes are presentation children. Coils compress with visual charge and react to capture without feeding controller state backward. Miss classification occurs only after the unchanged `SnakeStrike` result and cannot change collision or timing. See `BOA_ASSET_DECISION.md`.
 
 Quality profiles now share a fixed simulated flock count at the former medium boundary. Quality-dependent state is restricted to renderer resolution, shadows/bloom, particles, echo histories/returns/detail, and thermal trail budgets. A paused-loop same-seed construction test verifies exact low/medium/high state equality in both modes.
 

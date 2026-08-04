@@ -125,6 +125,10 @@ export class CaveMaterials {
       surfaceDetail: { value: .75 },
       geometryFill: { value: .5 },
       surfaceOffset: { value: .015 },
+      landmarkStrength: { value: 1 },
+      landmarkDetail: { value: 1 },
+      landmarkMemory: { value: 1 },
+      wetResponse: { value: 0 },
     };
     this.echo = new THREE.ShaderMaterial({
       uniforms: this.echoUniforms,
@@ -159,6 +163,10 @@ export class CaveMaterials {
         uniform float memoryDecay;
         uniform float pulseIntensity;
         uniform float surfaceDetail;
+        uniform float landmarkStrength;
+        uniform float landmarkDetail;
+        uniform float landmarkMemory;
+        uniform float wetResponse;
         varying vec3 vWorld;
         varying vec3 vNormalW;
         uniform float geometryFill;
@@ -184,7 +192,7 @@ export class CaveMaterials {
             float arrived=step(0.0,sinceArrival)*step(distanceFromCall,pulseRange);
             float uneven=.58+.27*vnoise(vWorld*.48+float(i)*7.3)+.15*vnoise(vWorld*.19+float(i)*3.1);
             direct=max(direct,front*step(0.0,age)*uneven);
-            memory=max(memory,arrived*exp(-sinceArrival/max(.35,memoryDecay))*uneven);
+            memory=max(memory,arrived*exp(-sinceArrival/max(.35,memoryDecay*landmarkMemory))*uneven);
           }
           vec3 viewDirection=normalize(cameraPosition-vWorld);
           float silhouette=pow(1.0-abs(dot(viewDirection,normalize(vNormalW))),2.1);
@@ -193,9 +201,11 @@ export class CaveMaterials {
           float fill=mix(.08,.48,clamp(geometryFill,0.,1.));
           float nearFade=smoothstep(.8,4.8,distance(cameraPosition,vWorld));
           float contour=smoothstep(.08,.9,silhouette);
-          float directShape=(fill*.55+contour*.15+grain*.075*surfaceDetail)*mix(.68,1.0,broad)*mix(.58,1.0,nearFade);
-          float memoryShape=fill*.3+contour*.2+grain*.085*surfaceDetail;
-          float response=direct*directShape+memory*memoryShape;
+          float detail=surfaceDetail*landmarkDetail;
+          float wetGlint=wetResponse*pow(max(0.0,dot(viewDirection,normalize(vNormalW))),8.0)*.2;
+          float directShape=(fill*.55+contour*.15+grain*.075*detail+wetGlint)*mix(.68,1.0,broad)*mix(.58,1.0,nearFade);
+          float memoryShape=fill*.3+contour*.2+grain*.085*detail+wetGlint*.35;
+          float response=(direct*directShape+memory*memoryShape)*landmarkStrength;
           response*=pulseIntensity;
           if(response<.00035)discard;
           vec3 memoryColor=vec3(.055,.24,.23);

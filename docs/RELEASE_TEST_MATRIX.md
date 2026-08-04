@@ -16,6 +16,7 @@ The authoritative release decision is `RELEASE_CHECKLIST.md`. Earlier rows below
 | Opposite perspective | Seed, difficulty, profile preserved both directions; thermal/focus/strike/call/HUD/body classes cleaned; menu FOV returned to 72; final Chrome run measured zero deferred/duck audio timers after each switch | Pass in Chrome and Firefox Nightly automation; transient-audio reset confirmed in final Chrome run |
 | Platform | Direct-file fatal UI, fullscreen entry/exit, and localStorage reload persistence | Pass in Chrome headless |
 | Performance | Installed Chrome 1920×1080 medium diagnostic separated JS/fixed/render-submit and recorded first-use sensory spikes | Measured, not a 60 FPS certification; see `PERFORMANCE.md` |
+| Milestone 7 sensory performance | Installed Chrome 150.0.7871.187 at 1440×900 Medium; isolated pulse/cave cold paths, loading prewarm, quick/deep/thermal/focus/biological activation matrix | Echo hitch resolved; quick/deep/focus/biological ≤3.0 ms and fresh Snake-first thermal 17.8 ms. Still not an interactive 1920×1080 or GPU-headroom certification; see `SENSORY_PERFORMANCE.md` |
 | Audio identity | Routing exercised; no human listening | Not tested as a release gate |
 | Human playability / HUD | No human novice-perspective session | Not tested |
 | Strike learning | One automated lead miss per engine; no 20-attempt human series | Not tested as required |
@@ -31,7 +32,7 @@ The authoritative release decision is `RELEASE_CHECKLIST.md`. Earlier rows below
 | Chrome lifecycle | Existing installed-Chrome RC smoke rerun at 1440×900 → 1366×768 | Pass with forced outcomes; startup, GLB, controls, pause/pointer loss, replay, both switches, cleanup, 90 local requests / zero non-local, no errors |
 | Resource lifecycle | Exact 50/50/25/25 sequence rerun | Pass; fixed environment baseline and active-mode resources bounded, see `RESOURCE_STRESS_TEST.md` |
 | Quality identity | Same seed/state serialized for low, medium, and high in both modes | Exact hashes match within each mode; 34 Bat-mode flock and 42 Snake-mode flock in every profile |
-| Performance | Installed Chrome, 1920×1080 medium, 180-frame normal/echo/thermal segments | Measured; CPU p95 low, headless cadence inconsistent, first echo submit spike 91.4 ms; not a 60 FPS certification |
+| Performance (Milestone 6 historical) | Installed Chrome, 1920×1080 medium, 180-frame normal/echo/thermal segments | Measured pre-fix baseline; CPU p95 low, headless cadence inconsistent, first echo submit spike 91.4 ms. Milestone 7 removed the activation spike; neither run is a 60 FPS certification |
 | Static/offline/vendor | Every source file parsed; browser request audit; `tools/verify-vendor.py` | Pass; zero non-local runtime requests, 19 vendored files / 2 dependencies verified |
 | Human RC gates | Audio identity, novice playability/HUD, 20 strikes, 30 difficulty sessions, physical gamepad, stable-browser interaction | Still not tested; Milestone 6 does not resolve them |
 

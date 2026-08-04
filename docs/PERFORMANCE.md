@@ -18,6 +18,14 @@ The cave shell and echo shell share one 144×32 variable elliptical geometry. Re
 
 The milestone software-WebGL capture run at 756×414 reported 81 accumulated composer calls, about 92.8k triangles, 19 textures, and two composer render targets in the high-profile bat scene. At this diagnostic resolution, the overlay held 60 FPS; these numbers are for regression comparison, not a discrete-GPU benchmark. Isolated sensory updates are normally below timer resolution and are displayed separately from total render time.
 
+## Milestone 7 sensory prewarm — 2026-08-03
+
+Installed Google Chrome 150.0.7871.187 ran headlessly at 1440×900, Medium, on macOS 15.6.1 / MacBook Air Mac14,2 / Apple M2 through ANGLE Metal. The first deep-echo spike was attributed to two deferred paths: the per-call pulse sphere/shader (52.7 ms with cave echoes hidden) and the 32 dormant authored cave echo renderables (61.3 ms when isolated). A combined cold deep call measured 71.8 ms; disabling bloom still measured 60.7 ms. Activation JavaScript was 0.9–1.9 ms, so bloom, reflection queries, and ordinary update work were not the primary cause.
+
+The final bounded prewarm cost 73.7 ms while loading (56.6 ms compile, 16.9 ms offscreen submit). It uses one temporary 2×2 target and leaves the composer at 13 persistent render targets. After prewarm, first quick render-submit max was 2.5 ms, first deep after quick 3.0 ms, second deep 2.0 ms, second thermal 1.8 ms, first focus 2.9 ms, and first snake biological return 3.0 ms. A separate fresh Snake-first page measured cold first thermal at 17.8 ms while adding five programs/eight renderer geometries; it remained below 33 ms and was not added to startup prewarm. Exact counters and attribution are in `SENSORY_PERFORMANCE.md`.
+
+The headless animation callback cadence still grouped many frames around 33 ms even while update and submit work stayed below 3 ms. No browser GPU timer was available. These results remove the avoidable first-use sensory hitch but do not certify sustained 60 FPS or quantify GPU headroom; the RC interactive performance gate remains open.
+
 ## Profiling
 
 Enable **Performance overlay** in Settings. It reports rolling FPS/frame time, composer render time, sensory CPU time, accumulated draw calls and triangles, texture/render-target count, active bats, particle budget, and fixed physics rate. For deeper work, use the browser Performance panel for a 10-second bat flight and a 10-second thermal hunt separately. Inspect `renderer.info`, long animation frames, shader compilation, and Web Audio graph lifetime. Profile at native and 1.5× device pixel ratio and record viewport/GPU with captures.
@@ -34,7 +42,7 @@ Enable **Performance overlay** in Settings. It reports rolling FPS/frame time, c
 
 The game avoids per-frame geometry/material/texture allocation, remote resources, unbounded emitters, and high-detail mesh collision. Echo clusters and thermal history use fixed pools; shared query records and creature matrices are reused. The O(n²) flock neighbor loop and full-scene heat-emitter traversal remain the largest CPU cleanup opportunities.
 
-## Milestone 6 environment diagnostic — 2026-08-02
+## Milestone 6 environment diagnostic — 2026-08-02 (historical prewarm baseline)
 
 The installed Google Chrome 150.0.7871.187 binary ran headlessly on macOS 15.6.1 (24G90), MacBook Air Mac14,2, Apple M2 8-core GPU / ANGLE Metal, at 1920×1080 and medium quality. The optional hero GLB was disabled to isolate the authored environment; each segment sampled 180 animation frames. Times are browser CPU and render-submit duration, not GPU timing.
 
@@ -46,7 +54,7 @@ The installed Google Chrome 150.0.7871.187 binary ran headlessly on macOS 15.6.1
 
 The deep-call emission function measured 1.7 ms and the thermal toggle 0.3 ms. A normal Bat frame reported 273 accumulated composer calls / 114,572 triangles / 26 renderer textures; the warm thermal Snake frame reported 316 / 120,212 / 26. Dormant authored echo meshes are culled outside an active call; 32 bounded echo meshes become eligible during acoustic memory. The scene owns 41 solid obstacle proxies and 52 authored reflection landmarks.
 
-The steady CPU-side p95 values remain below 16.7 ms, but the warm Bat headless cadence did not sustain 60 FPS and first deep echo still caused a large one-time submit spike. Therefore Milestone 6 does **not** turn the RC performance gate into a pass. An interactive trace and explicit first-use-spike decision remain required. The browser exposed no GPU timer, so no GPU duration or performance headroom is claimed.
+At this Milestone 6 checkpoint, the steady CPU-side p95 values remained below 16.7 ms, but warm Bat headless cadence did not sustain 60 FPS and first deep echo caused a large one-time submit spike. Milestone 7 subsequently attributed and removed that activation spike; the table is retained as the pre-fix comparison. The lack of interactive/GPU headroom evidence still keeps the RC performance gate open.
 
 A separate same-seed construction check produced identical low/medium/high hashes for Bat (`fd9da6…`, 34 flock / 3 snakes) and Snake (`51ecb1…`, 42 flock / 3 snakes). Quality continues to change presentation only.
 
@@ -104,7 +112,7 @@ First hero-bat animation submission measured 0.2 ms, the deep-call emission func
 
 The low steady-state p95 CPU and submit values show CPU-side headroom, but the headless frame cadence did not sustain 60 FPS and the first sensory activations contained large one-time render-submit spikes consistent with deferred shader work. No GPU timer was available, so no GPU duration is claimed. An attempted run with `--disable-frame-rate-limit --disable-gpu-vsync` produced WebGL shader validation failures and zero render counters; that run is invalid and none of its timing numbers are used.
 
-Release conclusion: the only defensible current statements are that steady-state JavaScript and render submission are below the 16.7 ms budget on this setup, and that first-use sensory shader spikes require an interactive trace or an explicit acceptance decision. The current run does not certify sustained 60 FPS.
+Historical RC conclusion at that checkpoint: steady-state JavaScript and render submission were below the 16.7 ms budget, while first-use sensory work spiked. Milestone 7 resolves the avoidable activation work; neither run certifies sustained 60 FPS.
 
 ## Milestone 4A hero-bat budget
 

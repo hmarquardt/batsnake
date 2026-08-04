@@ -63,3 +63,11 @@ Echo surface response uses antialiased arrival width, broad deterministic world-
 Thermal focus now changes motion evidence: samples near the aim cone persist longer and become clearer while peripheral trails recede. Bat head, torso, paired flight-muscle roots, and membranes remain separate emitters; boa head and body remain distinct. Cave materials, entrance vegetation, lights, and fog blend toward cool depth without disabling occlusion. Pools remain fixed at 12/48/112 samples and low retains all live heat information.
 
 At the 1920×1080 Apple M2 profile, thermal update p95 was 0.1 ms in each quality. Echo uses existing geometry/history pools and added no render target. See `PERFORMANCE.md` for the full matrix and remaining measurement limitations.
+
+## Milestone 7 prewarm and landmark character
+
+The pulse wavefront now uses one application-lifetime geometry/material instead of allocating and compiling a `ShaderMaterial` and sphere on every call. During the existing loading state, the selected profile's 32 actual authored echo renderables and shared pulse are compiled and submitted once to a disposable 2×2 target. Visibility, pulse origins/ages/intensity, frustum settings, and the prior render target are restored; no visible call, audio event, mode, or encounter timer is created.
+
+Authored landmark geometry sets per-draw response uniforms on the one cave echo material. Roost Vault retains a softer long cavity memory; Guano Shelf is broad and muted; Fang Ceiling suppresses fine repeated tips and decays quickly; Split Column emphasizes its cleft contours; Sentinel/Bell Chamber retains solid mass; wet Curtain Wall carries a longer grazing glint; Broken Pillar favors large broken edges; Moon Gallery and Moon Gate use shorter, wetter returns. This weighting changes rendering only. The spatial query volumes and reflectivity records remain the same gameplay/acoustic timing source.
+
+Thermal retained its fixed pool and did not need an additional startup pass. A fresh Snake-first activation measured 17.8 ms maximum submit while initializing five programs and eight renderer geometries; the second activation measured 1.8 ms, textures/render targets were unchanged, and neither frame crossed 33 ms. See `SENSORY_PERFORMANCE.md` for attribution, exact measurements, and limitations.
